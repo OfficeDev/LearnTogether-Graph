@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>JavaScript Microsoft Graph SPA</title>
+  <link rel="icon" href="data:;base64,="> <!-- Suppress favicon error -->
+</head>
+
+<body>
+  <a id="signin" onclick="displayUI(); return false;" href="#">
+    <img src="./images/ms-symbollockup_signin_light.png" alt="Sign in with Microsoft" />
+  </a>
+
+  <div id="content" style="display: none;">
+    <h1>Welcome <span id="userName"></span></h1>
+
+    <div id="colleagues">
+      <h2>My colleagues</h2>
+      <mgt-people id="myColleagues" people-queries="">
+        <template data-type="no-data">
+          Loading my colleagues...
+        </template>
+        <template>
+          <ul>
+            <li data-for="person in people">
+              <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines">
+              </mgt-person>
+            </li>
+          </ul>
+        </template>
+      </mgt-people>
+    </div>
+  </div>
+
+  <script src="https://alcdn.msauth.net/browser/2.1.0/js/msal-browser.min.js"
+    integrity="sha384-EmYPwkfj+VVmL1brMS1h6jUztl4QMS8Qq8xlZNgIT/luzg7MAzDVrRa2JxbNmk/e"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/microsoft-graph-client/lib/graph-js-sdk.js"></script>
+  <script src="https://unpkg.com/@microsoft/mgt/dist/bundle/mgt-loader.js"></script>
+  <script src=".env.js"></script>
+  <script src="auth.js"></script>
+  <script src="graph.js"></script>
+  <script src="ui.js"></script>
+</body>
+
+</html>
