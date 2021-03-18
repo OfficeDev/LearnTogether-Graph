@@ -5,10 +5,12 @@
   <meta charset="UTF-8" />
   <title>JavaScript Microsoft Graph SPA</title>
   <link rel="icon" href="data:;base64,="> <!-- Suppress favicon error -->
+  <link rel="stylesheet"
+    href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
-<body>
+<body class="ms-Fabric" dir="ltr">
   <a id="signin" onclick="displayUI(); return false;" href="#">
     <img src="./images/ms-symbollockup_signin_light.png" alt="Sign in with Microsoft" />
   </a>
@@ -25,7 +27,8 @@
         <template>
           <ul>
             <li data-for="person in people">
-              <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines" onclick="selectPerson('{{ person.id }}')">
+              <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines"
+                onclick="selectPerson('{{ person.id }}')">
               </mgt-person>
             </li>
           </ul>
