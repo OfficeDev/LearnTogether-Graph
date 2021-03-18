@@ -49,3 +49,9 @@ async function getMyColleagues() {
 
   return colleagues;
 }
+
+async function getMyUnreadEmails() {
+  return await graphClient
+    .api('/me/messages?$filter=isRead eq false&$select=subject,bodyPreview,sender')
+    .get();
+}

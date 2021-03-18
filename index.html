@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <title>JavaScript Microsoft Graph SPA</title>
   <link rel="icon" href="data:;base64,="> <!-- Suppress favicon error -->
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
 <body>
@@ -24,12 +25,18 @@
         <template>
           <ul>
             <li data-for="person in people">
-              <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines">
+              <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines" onclick="selectPerson('{{ person.id }}')">
               </mgt-person>
             </li>
           </ul>
         </template>
       </mgt-people>
+    </div>
+
+    <div id="emails">
+      <h2>Unread emails</h2>
+      <span class="loading">Loading unread emails...</span>
+      <dl></dl>
     </div>
   </div>
 
@@ -37,7 +44,7 @@
     integrity="sha384-EmYPwkfj+VVmL1brMS1h6jUztl4QMS8Qq8xlZNgIT/luzg7MAzDVrRa2JxbNmk/e"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@microsoft/microsoft-graph-client/lib/graph-js-sdk.js"></script>
-  <script src="https://unpkg.com/@microsoft/mgt/dist/bundle/mgt-loader.js"></script>
+  <script src="https://unpkg.com/@microsoft/mgt@2.2.0-next.file.e40e43b/dist/bundle/mgt-loader.js"></script>
   <script src=".env.js"></script>
   <script src="auth.js"></script>
   <script src="graph.js"></script>
