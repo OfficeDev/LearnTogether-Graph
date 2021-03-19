@@ -63,6 +63,8 @@ async function getMyUpcomingMeetings() {
   const dateNextWeek = new Date();
   dateNextWeek.setDate(dateNextWeek.getDate() + 7);
   return await graphClient
-    .api(`/me/calendar/calendarView?startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}&$orderby=start/dateTime`)
-    .get();
+  .api(`/me/calendar/calendarView`)
+  .query(`startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}`)
+  .orderby(`start/DateTime`)
+  .get();
 }
