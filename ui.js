@@ -35,12 +35,16 @@ async function loadUnreadEmails() {
   emailsLoading.style = 'display: none';
   const emailsList = document.querySelector('#emails dl');
   myUnreadEmails.value.forEach(email => {
-    const emailDt = document.createElement('dt');
-    emailDt.innerHTML = `${email.subject} (${email.sender.emailAddress.name})`;
+    const emailDiv = document.createElement('div');
+    const emailDt = document.createElement('dt');    
+    emailDt.innerHTML = `<b>${email.subject} (${email.sender.emailAddress.name})</b>`;
     const emailDd = document.createElement('dd');
     emailDd.innerHTML = email.bodyPreview;
-    emailsList.append(emailDt, emailDd);
+    emailDiv.append(emailDt, emailDd);    
+    emailDiv.className="email";
+    emailsList.append(emailDiv);
   });
+ 
 }
 //load meetings to MGT agenda component
 async function loadMeetings() {
