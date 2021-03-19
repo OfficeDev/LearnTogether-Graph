@@ -2,7 +2,7 @@
 const msalConfig = {
   auth: {
     ...config,
-    redirectUri: 'http://localhost:8080'
+    redirectUri: window.location.origin
   }
 };
 const msalRequest = { scopes: ['User.Read.All', 'Sites.Read.All', 'Calendars.Read', 'Mail.Read'] };
