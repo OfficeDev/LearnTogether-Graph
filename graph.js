@@ -51,11 +51,19 @@ async function getMyColleagues() {
 }
 
 async function getMyUnreadEmails() {
-  return await graphClient
+  const selectedUserId = getSelectedUserId();
+
+  let query = graphClient
     .api('/me/messages')
     .filter('isRead eq false')
-    .select('subject,bodyPreview,sender')
-    .get();
+    .select('subject,bodyPreview,sender');
+
+  if (selectedUserId) {
+    const selectedUsersEmail = await getEmailForUser(selectedUserId);
+    query = query.filter(`sender/emailAddress/address eq '${selectedUsersEmail}'`);
+  }
+
+  return await query.get();
 }
 //get calendar events for upcoming week
 async function getMyUpcomingMeetings() {
@@ -63,8 +71,16 @@ async function getMyUpcomingMeetings() {
   const dateNextWeek = new Date();
   dateNextWeek.setDate(dateNextWeek.getDate() + 7);
   return await graphClient
-  .api(`/me/calendar/calendarView`)
-  .query(`startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}`)
-  .orderby(`start/DateTime`)
-  .get();
+    .api(`/me/calendar/calendarView`)
+    .query(`startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}`)
+    .orderby(`start/DateTime`)
+    .get();
+}
+
+async function getEmailForUser(userId) {
+  const user = await graphClient
+    .api(`/users/${userId}`)
+    .select('mail')
+    .get();
+  return user.mail;
 }

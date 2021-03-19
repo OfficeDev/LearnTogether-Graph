@@ -19,13 +19,26 @@ async function displayUI(auto) {
 
   await Promise.all([
     loadColleagues(),
+    loadData()
+  ]);
+}
+
+async function loadData() {
+  await Promise.all([
     loadUnreadEmails(),
     loadMeetings()
   ]);
 }
 
 function selectPerson(personElement, personId) {
+  const selectedUserId = getSelectedUserId();
+  if (personElement && selectedUserId === personId) {
+    personId = '';
+    personElement = undefined;
+  }
+
   location.hash = `#${personId}`;
+
   document
     .querySelectorAll('#colleagues li.selected')
     .forEach(elem => elem.className = elem.className.replace('selected', ''));
@@ -37,6 +50,8 @@ function selectPerson(personElement, personId) {
   if (personElement) {
     personElement.className += 'selected';
   }
+
+  loadData();
 }
 
 async function loadColleagues() {
@@ -44,10 +59,12 @@ async function loadColleagues() {
   const colleaguesComponent = document.getElementById('myColleagues');
   colleaguesComponent.people = myColleagues.value;
 
-  if (location.hash.length > 1) {
-    // we need to wait until mgt-people rendered people
+  const selectedUserId = getSelectedUserId();
+  if (selectedUserId) {
+    // we need to wait until mgt-people rendered people. Since there is no
+    // event exposed by the mgt-people component, we wait via timer
     setTimeout(() => {
-      selectPerson(undefined, location.hash.substr(1));
+      selectPerson(undefined, selectedUserId);
     }, 100);
   }
 }
@@ -58,6 +75,8 @@ async function loadUnreadEmails() {
   emailsLoading.style = 'display: none';
 
   const emailsList = document.querySelector('#emails ul');
+  emailsList.innerHTML = '';
+
   myUnreadEmails.value.forEach(email => {
     const emailLi = document.createElement('li');
     emailLi.className = 'ms-depth-8';
@@ -84,4 +103,12 @@ async function loadMeetings() {
   const myMeetings = await getMyUpcomingMeetings();
   const meetingsComponent = document.getElementById('myMeetings');
   meetingsComponent.events = myMeetings.value;
+}
+
+function getSelectedUserId() {
+  if (location.hash.length < 2) {
+    return undefined;
+  }
+
+  return location.hash.substr(1);
 }
