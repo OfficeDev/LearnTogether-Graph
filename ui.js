@@ -143,16 +143,30 @@ async function loadTrendingFiles() {
   const trendingList = document.querySelector('#trending ul');
   trendingList.innerHTML = '';
 
+  let html = "";
+
   trendingFiles.forEach(file => {
-    const fileLi = document.createElement('li');
-    fileLi.className = 'ms-depth-8';
 
-    const fileElement = document.createElement('mgt-file');
-    fileElement.driveItem = file;
+    const name = file.name;
+    const extension = file.name.split('.').slice(-1)[0];
+    const iconUrl = `https://spoprod-a.akamaihd.net/files/fabric-cdn-prod_20201008.001/assets/item-types/48/${extension}.svg`;
+    const modified = new Date (file.lastModifiedDateTime).toLocaleDateString();
+    const size = (file.size / 1000000).toFixed(2) + "MB";
 
-    fileLi.append(fileElement);
-    trendingList.append(fileLi);
+    html += `
+      <li class="ms-depth-8">
+        <div class="file">
+          <div class="icon"><img src="${iconUrl}"></div>
+          <div class="detail">
+            <div class="line1">${name}</div>
+            <div class="line2">Modified ${modified}</div>
+            <div class="line3">Size: ${size}</div>
+          </div>
+        </div>
+      </li>`;
   });
+  console.log(html);
+  trendingList.innerHTML = html;
 }
 
 function getSelectedUserId() {
