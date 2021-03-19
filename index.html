@@ -29,9 +29,8 @@
               </template>
               <template>
                 <ul>
-                  <li data-for="person in people">
-                    <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines"
-                      onclick="selectPerson('{{ person.id }}')">
+                  <li data-for="person in people" onclick="selectPerson(this, '{{ person.id }}')" data-personid="{{ person.id }}">
+                    <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines">
                     </mgt-person>
                   </li>
                 </ul>

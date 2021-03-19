@@ -14,25 +14,14 @@ ul {
 
 #colleagues li {
   cursor: pointer;
+  padding: 14px;
+}
+
+#colleagues li:hover, #colleagues li.selected {
+  box-shadow: 0 3.2px 7.2px 0 rgb(0 0 0 / 13%), 0 0.6px 1.8px 0 rgb(0 0 0 / 11%)
 }
 
 #emails li {
   margin: 0 10px 14px 0;
   padding: 14px;
-}
-
-.email {
-  padding: 10px;
-  margin: 8px 16px;
-  font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
-}
-
-.email:hover {
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.3);
-}
-
-.emailDt {
-  font-size: 10px;
-  margin-top: 0px;
-  margin-bottom: 0px;
 }

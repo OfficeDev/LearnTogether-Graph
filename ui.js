@@ -24,14 +24,32 @@ async function displayUI(auto) {
   ]);
 }
 
-function selectPerson(personId) {
+function selectPerson(personElement, personId) {
   location.hash = `#${personId}`;
+  document
+    .querySelectorAll('#colleagues li.selected')
+    .forEach(elem => elem.className = elem.className.replace('selected', ''));
+
+  if (!personElement) {
+    personElement = document.querySelector(`#colleagues li[data-personid="${personId}"]`);
+  }
+
+  if (personElement) {
+    personElement.className += 'selected';
+  }
 }
 
 async function loadColleagues() {
   const myColleagues = await getMyColleagues();
   const colleaguesComponent = document.getElementById('myColleagues');
   colleaguesComponent.people = myColleagues.value;
+
+  if (location.hash.length > 1) {
+    // we need to wait until mgt-people rendered people
+    setTimeout(() => {
+      selectPerson(undefined, location.hash.substr(1));
+    }, 100);
+  }
 }
 
 async function loadUnreadEmails() {
