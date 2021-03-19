@@ -1,6 +1,26 @@
+ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.ms-color-sharedCyanBlue20 {
+  color: #004e8c;
+}
+
+.mt8 {
+  margin-top: 8px;
+}
+
 #colleagues li {
   cursor: pointer;
 }
+
+#emails li {
+  margin: 0 10px 14px 0;
+  padding: 14px;
+}
+
 .email {
   padding: 10px;
   margin: 8px 16px;

@@ -24,22 +24,24 @@ async function signIn() {
 }
 // try to sign user automatically in based on their previous session
 async function silentSignIn() {
-  const allAccounts = msalClient.getAllAccounts();
-  if (allAccounts && allAccounts.length > 0) {
-    const msalRequest = {
-      scopes: [],
-      account: allAccounts[0]
-    };
-    try {
-      const authResult = await msalClient.acquireTokenSilent(msalRequest);
-      sessionStorage.setItem('msalAccount', authResult.account.username);
-    }
-    catch { }
+  const account = sessionStorage.getItem('msalAccount');
+  if (!account) {
+    return;
   }
+
+  const msalRequest = {
+    scopes: [],
+    account: msalClient.getAccountByUsername(account)
+  };
+  try {
+    const authResult = await msalClient.acquireTokenSilent(msalRequest);
+    sessionStorage.setItem('msalAccount', authResult.account.username);
+  }
+  catch { }
 }
 //Get token from Graph
 async function getToken() {
-  let account = sessionStorage.getItem('msalAccount');
+  const account = sessionStorage.getItem('msalAccount');
   if (!account) {
     throw new Error(
       'User info cleared from session. Please sign out and sign in again.');

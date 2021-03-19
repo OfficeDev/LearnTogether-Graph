@@ -52,7 +52,9 @@ async function getMyColleagues() {
 
 async function getMyUnreadEmails() {
   return await graphClient
-    .api('/me/messages?$filter=isRead eq false&$select=subject,bodyPreview,sender')
+    .api('/me/messages')
+    .filter('isRead eq false')
+    .select('subject,bodyPreview,sender')
     .get();
 }
 //get calendar events for upcoming week

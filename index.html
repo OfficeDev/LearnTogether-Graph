@@ -18,33 +18,42 @@
   <div id="content" style="display: none;">
     <h1>Welcome <span id="userName"></span></h1>
 
-    <div id="colleagues">
-      <h2>My colleagues</h2>
-      <mgt-people id="myColleagues" people-queries="">
-        <template data-type="no-data">
-          Loading my colleagues...
-        </template>
-        <template>
-          <ul>
-            <li data-for="person in people">
-              <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines"
-                onclick="selectPerson('{{ person.id }}')">
-              </mgt-person>
-            </li>
-          </ul>
-        </template>
-      </mgt-people>
-    </div>
-
-    <div id="emails">
-      <h2>Unread emails</h2>
-      <span class="loading">Loading unread emails...</span>
-      <dl></dl>
-    </div>
-    <div id="events">
-      <h2>Upcoming meetings for next week</h2>
-      <mgt-agenda id="myMeetings">        
-      </mgt-agenda>
+    <div class="ms-Grid">
+      <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
+          <div id="colleagues">
+            <h2>My colleagues</h2>
+            <mgt-people id="myColleagues" people-queries="">
+              <template data-type="no-data">
+                Loading my colleagues...
+              </template>
+              <template>
+                <ul>
+                  <li data-for="person in people">
+                    <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines"
+                      onclick="selectPerson('{{ person.id }}')">
+                    </mgt-person>
+                  </li>
+                </ul>
+              </template>
+            </mgt-people>
+          </div>
+        </div>
+        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
+          <div id="emails">
+            <h2>Unread emails</h2>
+            <span class="loading">Loading unread emails...</span>
+            <ul></ul>
+          </div>
+        </div>
+        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
+          <div id="events">
+            <h2>Upcoming meetings for next week</h2>
+            <mgt-agenda id="myMeetings">
+            </mgt-agenda>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
