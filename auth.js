@@ -5,7 +5,7 @@ const msalConfig = {
     redirectUri: 'http://localhost:8080'
   }
 };
-const msalRequest = { scopes: ['User.Read.All', 'Sites.Read.All'] };
+const msalRequest = { scopes: ['User.Read.All', 'Sites.Read.All', 'Calendars.Read'] };
 
 //Initialize MSAL client
 const msalClient = new msal.PublicClientApplication(msalConfig);
