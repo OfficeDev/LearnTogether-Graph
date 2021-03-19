@@ -39,6 +39,8 @@ function selectPerson(personElement, personId) {
   if (personElement && selectedUserId === personId) {
     personId = '';
     personElement = undefined;
+    document.querySelector('#emails h2').innerHTML = 'Your unread emails';
+    document.querySelector('#trending h2').innerHTML = 'Trending files';
   }
 
   location.hash = `#${personId}`;
@@ -53,6 +55,9 @@ function selectPerson(personElement, personId) {
 
   if (personElement) {
     personElement.className += 'selected';
+    const personName = personElement.dataset['personname'];
+    document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
+    document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
   }
 
   loadData();
@@ -68,6 +73,7 @@ async function loadColleagues() {
     const colleagueLi = document.createElement('li');
     colleagueLi.addEventListener('click', () => selectPerson(colleagueLi, person.id));
     colleagueLi.setAttribute('data-personid', person.id);
+    colleagueLi.setAttribute('data-personname', person.displayName);
 
     const mgtPerson = document.createElement('mgt-person');
     mgtPerson.personDetails = person;
