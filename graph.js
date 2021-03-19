@@ -87,14 +87,17 @@ async function getMyUpcomingMeetings() {
 }
 
 async function getTrendingFiles() {
+  const selectedUserId = getSelectedUserId();
+  const userQueryPart = selectedUserId ? `/users/${selectedUserId}` : '/me';
+
   const trendingIds = await graphClient
-    .api('/me/insights/trending')
+    .api(`${userQueryPart}/insights/trending`)
     .select('id')
     .top(5)
     .get();
   const trendingResponses = await Promise.allSettled(trendingIds.value.map(t =>
     graphClient
-      .api(`/me/insights/trending/${t.id}/resource`)
+      .api(`${userQueryPart}/insights/trending/${t.id}/resource`)
       .get()));
   return trendingResponses
     .filter(res => res.status === 'fulfilled')

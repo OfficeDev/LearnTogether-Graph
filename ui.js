@@ -60,6 +60,11 @@ function selectPerson(personElement, personId) {
     document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
   }
 
+  document.querySelector('#emails .loading').style = 'display: block';
+  document.querySelector('#trending .loading').style = 'display: block';
+  document.querySelector('#emails ul').innerHTML = '';
+  document.querySelector('#trending ul').innerHTML = '';
+
   loadData();
 }
 
