@@ -5,15 +5,8 @@ const msalConfig = {
     redirectUri: 'http://localhost:8080'
   }
 };
-const msalRequest = { scopes: [] };
-function ensureScope(scopes) {
-  const scopesArray = Array.isArray(scopes) ? scopes : [scopes];
-  scopesArray.forEach(scope => {
-    if (!msalRequest.scopes.some((s) => s.toLowerCase() === scope.toLowerCase())) {
-      msalRequest.scopes.push(scope);
-    }
-  })
-}
+const msalRequest = { scopes: ['User.Read.All', 'Sites.Read.All'] };
+
 //Initialize MSAL client
 const msalClient = new msal.PublicClientApplication(msalConfig);
 
@@ -26,18 +19,21 @@ async function signIn() {
 async function silentSignIn() {
   const account = sessionStorage.getItem('msalAccount');
   if (!account) {
-    return;
+    return false;
   }
 
-  const msalRequest = {
-    scopes: [],
+  const msalRequestSilent = {
+    scopes: msalRequest.scopes,
     account: msalClient.getAccountByUsername(account)
   };
   try {
-    const authResult = await msalClient.acquireTokenSilent(msalRequest);
+    const authResult = await msalClient.acquireTokenSilent(msalRequestSilent);
     sessionStorage.setItem('msalAccount', authResult.account.username);
+    return true;
   }
-  catch { }
+  catch {
+    return false;
+  }
 }
 //Get token from Graph
 async function getToken() {

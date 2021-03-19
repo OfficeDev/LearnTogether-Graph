@@ -9,7 +9,6 @@ const authProvider = {
 const graphClient = MicrosoftGraph.Client.initWithMiddleware({ authProvider });
 //Get user info from Graph
 async function getUser() {
-  ensureScope('user.read');
   return await graphClient
     .api('/me')
     .select('id,displayName')
@@ -17,7 +16,6 @@ async function getUser() {
 }
 
 async function getMyColleagues() {
-  ensureScope('User.Read.All');
   // get my manager
   var manager;
   try {
@@ -62,16 +60,20 @@ async function getMyUnreadEmails() {
 
   let query = graphClient
     .api('/me/messages')
-    .filter('isRead eq false')
+    .filter()
     .select('subject,bodyPreview,sender');
+  let filter = 'isRead eq false';
 
   if (selectedUserId) {
     const selectedUsersEmail = await getEmailForUser(selectedUserId);
-    query = query.filter(`sender/emailAddress/address eq '${selectedUsersEmail}'`);
+    filter += ` and sender/emailAddress/address eq '${selectedUsersEmail}'`;
   }
 
-  return await query.get();
+  return await query
+    .filter(filter)
+    .get();
 }
+
 //get calendar events for upcoming week
 async function getMyUpcomingMeetings() {
   const dateNow = new Date();
@@ -82,6 +84,20 @@ async function getMyUpcomingMeetings() {
     .query(`startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}`)
     .orderby(`start/DateTime`)
     .get();
+}
+
+async function getTrendingFiles() {
+  const trendingIds = await graphClient
+    .api('/me/insights/trending')
+    .select('id')
+    .get();
+  const trendingResponses = await Promise.allSettled(trendingIds.value.map(t =>
+    graphClient
+      .api(`/me/insights/trending/${t.id}/resource`)
+      .get()));
+  return trendingResponses
+    .filter(res => res.status === 'fulfilled')
+    .map(res => res.value);
 }
 
 async function getEmailForUser(userId) {

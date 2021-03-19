@@ -1,6 +1,9 @@
 async function displayUI(auto) {
   if (auto) {
-    await silentSignIn();
+    const loggedIn = await silentSignIn();
+    if (!loggedIn) {
+      return;
+    }
   }
   else {
     await signIn();
@@ -26,7 +29,8 @@ async function displayUI(auto) {
 async function loadData() {
   await Promise.all([
     loadUnreadEmails(),
-    loadMeetings()
+    loadMeetings(),
+    loadTrendingFiles()
   ]);
 }
 
@@ -96,13 +100,33 @@ async function loadUnreadEmails() {
     emailLi.append(emailLine1, emailLine2, emailLine3);
     emailsList.append(emailLi);
   });
-
 }
+
 //load meetings to MGT agenda component
 async function loadMeetings() {
   const myMeetings = await getMyUpcomingMeetings();
   const meetingsComponent = document.getElementById('myMeetings');
   meetingsComponent.events = myMeetings.value;
+}
+
+async function loadTrendingFiles() {
+  const trendingFiles = await getTrendingFiles();
+  const trendingLoading = document.querySelector('#trending .loading');
+  trendingLoading.style = 'display: none';
+
+  const trendingList = document.querySelector('#trending ul');
+  trendingList.innerHTML = '';
+
+  trendingFiles.forEach(file => {
+    const fileLi = document.createElement('li');
+    fileLi.className = 'ms-depth-8';
+
+    const fileElement = document.createElement('mgt-file');
+    fileElement.driveItem = file;
+
+    fileLi.append(fileElement);
+    trendingList.append(fileLi);
+  });
 }
 
 function getSelectedUserId() {
