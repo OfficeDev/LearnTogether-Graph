@@ -55,3 +55,10 @@ async function getMyUnreadEmails() {
     .api('/me/messages?$filter=isRead eq false&$select=subject,bodyPreview,sender')
     .get();
 }
+//get calendar events for upcoming week
+async function getMyUpcomingMeetings() {
+  var dateNow=new Date();
+  return await graphClient
+    .api(`/me/events?$filter=Start/DateTime ge '${dateNow.toISOString()}'&select=subject,body,bodyPreview,organizer,attendees,start,end,location&$orderby= Start/DateTime asc`)
+    .get();
+}

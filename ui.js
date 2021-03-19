@@ -14,7 +14,8 @@ async function displayUI() {
 
   await Promise.all([
     loadColleagues(),
-    loadUnreadEmails()
+    loadUnreadEmails(),
+    loadMeetings()
   ]);
 }
 
@@ -40,4 +41,10 @@ async function loadUnreadEmails() {
     emailDd.innerHTML = email.bodyPreview;
     emailsList.append(emailDt, emailDd);
   });
+}
+//load meetings to MGT agenda component
+async function loadMeetings() {
+  const myMeetings = await getMyUpcomingMeetings();
+  const meetingsComponent = document.getElementById('myMeetings');
+  meetingsComponent.events = myMeetings.value;
 }
