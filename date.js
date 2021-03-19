@@ -1,5 +1,5 @@
 
-   function dayFromDateTime(dateTimeString){
+    dayFromDateTime=(dateTimeString)=>{
        
         let date = new Date(dateTimeString);
         date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
@@ -24,7 +24,7 @@
 
         return monthNames[monthIndex] + ' ' + day + ' ' + year;
     }
-    function timeRangeFromEvent(event) {
+    timeRangeFromEvent=(event)=> {
         if (event.isAllDay) {
             return 'ALL DAY';
         }

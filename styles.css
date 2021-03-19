@@ -25,3 +25,51 @@ ul {
   margin: 0 10px 14px 0;
   padding: 14px;
 }
+.date {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.time {
+  display: inline;
+  font-size: 12px;
+}
+
+.location {
+  font-size: 12px;
+}
+
+.details {
+  margin-bottom: 20px;
+  margin-top: 5px;
+  font-size: 18px;
+  min-width: 180px;
+  padding-left: 5px;
+  width: 400px;
+}
+.online-meeting {
+  font-size: 10px;
+  margin-top: 8px;
+}
+
+.online-meeting-icon {
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.online-meeting-link {
+  text-decoration: none;
+  color: #3063b2;
+}
+
+.attendees {
+  margin-top: 8px;
+}
+
+.attendee {
+  display: inline-block;
+}
+
+mgt-agenda {
+  margin: 20px;
+}
