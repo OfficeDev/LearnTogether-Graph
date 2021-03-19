@@ -21,6 +21,11 @@ ul {
   box-shadow: 0 3.2px 7.2px 0 rgb(0 0 0 / 13%), 0 0.6px 1.8px 0 rgb(0 0 0 / 11%)
 }
 
+#colleagues li.selected {
+  border: 1px solid #ccc;
+  background: #eee;
+}
+
 #emails li {
   margin: 0 10px 14px 0;
   padding: 14px;

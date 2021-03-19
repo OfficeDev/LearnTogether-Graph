@@ -60,8 +60,8 @@ async function getMyUnreadEmails() {
 
   let query = graphClient
     .api('/me/messages')
-    .filter()
-    .select('subject,bodyPreview,sender');
+    .select('subject,bodyPreview,sender')
+    .top(5);
   let filter = 'isRead eq false';
 
   if (selectedUserId) {
@@ -90,6 +90,7 @@ async function getTrendingFiles() {
   const trendingIds = await graphClient
     .api('/me/insights/trending')
     .select('id')
+    .top(5)
     .get();
   const trendingResponses = await Promise.allSettled(trendingIds.value.map(t =>
     graphClient
