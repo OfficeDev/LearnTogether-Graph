@@ -49,6 +49,30 @@
           <div id="events">
             <h2>Upcoming meetings for next week</h2>
             <mgt-agenda id="myMeetings">
+              <template >
+                <div class="details" data-for="event in events">                 
+                     <div>
+                      <div class="date">{{ dayFromDateTime(event.start.dateTime) }}</div>
+                      <div class="time">{{ timeRangeFromEvent(event) }}</div>
+                    </div>
+                  <div class="subject">{{ event.subject }}</div>
+                  <div class="location" data-if="event.location.displayName">
+                    at
+                    <a href="https://bing.com/maps/default.aspx?where1={{event.location.displayName}}"
+                      target="_blank"><b>{{ event.location.displayName }}</b></a>
+                  </div>
+                  <div class="attendees" data-if="event.attendees.length">
+                    <span class="attendee" data-for="attendee in event.attendees">
+                        <mgt-person person-query="{{attendee.emailAddress.name}}"></mgt-person>
+                      </span>
+                  </div>
+                  <div class="online-meeting" data-if="event.bodyPreview.includes('Join Microsoft Teams Meeting')">
+                    <img class="online-meeting-icon" src="https://img.icons8.com/color/48/000000/microsoft-teams.png" />
+                    <a class="online-meeting-link" href="{{ event.onlineMeetingUrl }}">Join Teams Meeting</a>
+                  </div>
+                </div>
+               
+              </template>
             </mgt-agenda>
           </div>
         </div>
@@ -65,6 +89,7 @@
   <script src="auth.js"></script>
   <script src="graph.js"></script>
   <script src="ui.js"></script>
+  <script src="date.js"></script>
   <script>
     displayUI(true);
   </script>
