@@ -148,8 +148,10 @@ async function loadTrendingFiles() {
   trendingFiles.forEach(file => {
 
     const name = file.name;
-    const extension = file.name.split('.').slice(-1)[0];
-    const iconUrl = `https://spoprod-a.akamaihd.net/files/fabric-cdn-prod_20201008.001/assets/item-types/48/${extension}.svg`;
+    const extension = file.name.split('.').slice(-1)[0].toLowerCase();
+    iconUrl = ['docx','xlsx','pptx','vsdx','msg','mpp'].includes(extension) ?
+              `https://static2.sharepointonline.com/files/fabric/assets/item-types/48_1.5x/${extension}.svg` :
+              "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
     const modified = new Date (file.lastModifiedDateTime).toLocaleDateString();
     const size = (file.size / 1000000).toFixed(2) + "MB";
 
