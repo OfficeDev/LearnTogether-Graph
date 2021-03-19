@@ -93,6 +93,7 @@ async function getTrendingFiles() {
   const trendingIds = await graphClient
     .api(`${userQueryPart}/insights/trending`)
     .select('id')
+    .filter("resourceReference/type eq 'microsoft.graph.driveItem'")
     .top(5)
     .get();
   const trendingResponses = await Promise.allSettled(trendingIds.value.map(t =>
