@@ -87,6 +87,7 @@ async function getMyUpcomingMeetings() {
 }
 
 async function getTrendingFiles() {
+  result = [];
   const selectedUserId = getSelectedUserId();
   const userQueryPart = selectedUserId ? `/users/${selectedUserId}` : '/me';
 
@@ -96,13 +97,26 @@ async function getTrendingFiles() {
     .filter("resourceReference/type eq 'microsoft.graph.driveItem'")
     .top(5)
     .get();
-  const trendingResponses = await Promise.allSettled(trendingIds.value.map(t =>
-    graphClient
-      .api(`${userQueryPart}/insights/trending/${t.id}/resource`)
-      .get()));
-  return trendingResponses
-    .filter(res => res.status === 'fulfilled')
-    .map(res => res.value);
+
+  let i = 1;
+  const batchRequests = trendingIds.value.map(t => ({
+    id: (i++).toString(),
+    request: new Request(`${userQueryPart}/insights/trending/${t.id}/resource`,
+      { method: "GET" })
+  }));
+
+  let batchContent = await (new MicrosoftGraph.BatchRequestContent(batchRequests)).getContent();
+  const batchResponse = await graphClient
+    .api('/$batch')
+    .post(batchContent);
+  const batchResponseContent = new MicrosoftGraph.BatchResponseContent(batchResponse);
+  for (let j=1; j<i; j++) {
+    let response = await batchResponseContent.getResponseById(j.toString());
+    if (response.ok) {
+      result.push(await response.json());
+    }
+  }
+  return result;
 }
 
 async function getEmailForUser(userId) {

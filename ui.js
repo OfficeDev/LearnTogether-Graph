@@ -151,7 +151,7 @@ async function loadTrendingFiles() {
     const extension = file.name.split('.').slice(-1)[0].toLowerCase();
     iconUrl = ['docx','xlsx','pptx','vsdx','msg','mpp'].includes(extension) ?
               `https://static2.sharepointonline.com/files/fabric/assets/item-types/48_1.5x/${extension}.svg` :
-              "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+              "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="; // single blank pixel
     const modified = new Date (file.lastModifiedDateTime).toLocaleDateString();
     const size = (file.size / 1000000).toFixed(2) + "MB";
     const webUrl = file.webUrl;
