@@ -154,10 +154,11 @@ async function loadTrendingFiles() {
               "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
     const modified = new Date (file.lastModifiedDateTime).toLocaleDateString();
     const size = (file.size / 1000000).toFixed(2) + "MB";
+    const webUrl = file.webUrl;
 
     html += `
       <li class="ms-depth-8">
-        <div class="file">
+        <div class="file" onclick="window.open('${webUrl}','_blank');">
           <div class="icon"><img src="${iconUrl}"></div>
           <div class="detail">
             <div class="line1">${name}</div>
@@ -167,7 +168,6 @@ async function loadTrendingFiles() {
         </div>
       </li>`;
   });
-  console.log(html);
   trendingList.innerHTML = html;
 }
 
