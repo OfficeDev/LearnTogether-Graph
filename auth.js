@@ -22,6 +22,21 @@ async function signIn() {
   const authResult = await msalClient.loginPopup(msalRequest);
   sessionStorage.setItem('msalAccount', authResult.account.username);
 }
+// try to sign user automatically in based on their previous session
+async function silentSignIn() {
+  const allAccounts = msalClient.getAllAccounts();
+  if (allAccounts && allAccounts.length > 0) {
+    const msalRequest = {
+      scopes: [],
+      account: allAccounts[0]
+    };
+    try {
+      const authResult = await msalClient.acquireTokenSilent(msalRequest);
+      sessionStorage.setItem('msalAccount', authResult.account.username);
+    }
+    catch { }
+  }
+}
 //Get token from Graph
 async function getToken() {
   let account = sessionStorage.getItem('msalAccount');

@@ -57,8 +57,10 @@ async function getMyUnreadEmails() {
 }
 //get calendar events for upcoming week
 async function getMyUpcomingMeetings() {
-  var dateNow=new Date();
+  const dateNow = new Date();
+  const dateNextWeek = new Date();
+  dateNextWeek.setDate(dateNextWeek.getDate() + 7);
   return await graphClient
-    .api(`/me/events?$filter=Start/DateTime ge '${dateNow.toISOString()}'&select=subject,body,bodyPreview,organizer,attendees,start,end,location&$orderby= Start/DateTime asc`)
+    .api(`/me/calendar/calendarView?startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}&$orderby=start/dateTime`)
     .get();
 }

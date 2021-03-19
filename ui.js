@@ -1,10 +1,15 @@
-async function displayUI() {    
-  await signIn();
+async function displayUI(auto) {
+  if (auto) {
+    await silentSignIn();
+  }
+  else {
+    await signIn();
+  }
 
   // Display info from user profile
   const user = await getUser();
   var userName = document.getElementById('userName');
-  userName.innerText = user.displayName;  
+  userName.innerText = user.displayName;
 
   // Hide login button and initial UI
   var signInButton = document.getElementById('signin');
@@ -36,15 +41,15 @@ async function loadUnreadEmails() {
   const emailsList = document.querySelector('#emails dl');
   myUnreadEmails.value.forEach(email => {
     const emailDiv = document.createElement('div');
-    const emailDt = document.createElement('dt');    
+    const emailDt = document.createElement('dt');
     emailDt.innerHTML = `<b>${email.subject} (${email.sender.emailAddress.name})</b>`;
     const emailDd = document.createElement('dd');
     emailDd.innerHTML = email.bodyPreview;
-    emailDiv.append(emailDt, emailDd);    
-    emailDiv.className="email";
+    emailDiv.append(emailDt, emailDd);
+    emailDiv.className = "email";
     emailsList.append(emailDiv);
   });
- 
+
 }
 //load meetings to MGT agenda component
 async function loadMeetings() {
