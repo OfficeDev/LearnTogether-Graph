@@ -35,6 +35,13 @@ async function getMyColleagues() {
     .api(`/users/${manager.id}/directReports`)
     .get();
 
+  // exclude the current user, since this is not supported in Graph, we need to
+  // do it locally
+  const accountName = sessionStorage.getItem('msalAccount');
+  const account = msalClient.getAccountByUsername(accountName);
+  const currentUserId = account.homeAccountId.substr(0, account.homeAccountId.indexOf('.'));
+  colleagues.value = colleagues.value.filter(c => c.id !== currentUserId);
+
   // get colleagues' photos
   const colleaguesPhotosRequests = colleagues.value.map(
     colleague => graphClient
