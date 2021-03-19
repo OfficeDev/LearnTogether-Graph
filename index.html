@@ -22,23 +22,10 @@
       <div class="ms-Grid-row">
         <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
           <div id="colleagues">
-            <h2>My colleagues</h2>
-            <mgt-people id="myColleagues" people-queries="">
-              <template data-type="no-data">
-                Loading my colleagues...
-              </template>
-              <template>
-                <ul>
-                  <li data-for="person in people" onclick="selectPerson(this, '{{ person.id }}')"
-                    data-personid="{{ person.id }}">
-                    <mgt-person person-details="{{ person }}" line2-property="jobTitle" fetch-image view="twoLines">
-                    </mgt-person>
-                  </li>
-                </ul>
-              </template>
-            </mgt-people>
+            <h2>Your colleagues</h2>
+            <span class="loading">Loading colleagues...</span>
+            <ul></ul>
           </div>
-
           <div id="trending">
             <h2>Trending files</h2>
             <span class="loading">Loading trending files...</span>
@@ -47,7 +34,7 @@
         </div>
         <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
           <div id="emails">
-            <h2>Unread emails</h2>
+            <h2>Your unread emails</h2>
             <span class="loading">Loading unread emails...</span>
             <ul></ul>
           </div>

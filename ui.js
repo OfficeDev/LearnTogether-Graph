@@ -60,16 +60,31 @@ function selectPerson(personElement, personId) {
 
 async function loadColleagues() {
   const myColleagues = await getMyColleagues();
-  const colleaguesComponent = document.getElementById('myColleagues');
-  colleaguesComponent.people = myColleagues.value;
+  const colleaguesLoading = document.querySelector('#colleagues .loading');
+  colleaguesLoading.style = 'display: none';
+
+  const colleaguesList = document.querySelector('#colleagues ul');
+  myColleagues.value.forEach(person => {
+    const colleagueLi = document.createElement('li');
+    colleagueLi.addEventListener('click', () => selectPerson(colleagueLi, person.id));
+    colleagueLi.setAttribute('data-personid', person.id);
+
+    const mgtPerson = document.createElement('mgt-person');
+    mgtPerson.personDetails = person;
+    mgtPerson.line2Property = 'jobTitle';
+    mgtPerson.view = 4; // twoLines
+
+    colleagueLi.append(mgtPerson);
+    colleaguesList.append(colleagueLi);
+  });
 
   const selectedUserId = getSelectedUserId();
   if (selectedUserId) {
-    // we need to wait until mgt-people rendered people. Since there is no
-    // event exposed by the mgt-people component, we wait via timer
+    // we need to put marking selected user on a different rendering loop to
+    // wait for the DOM to refresh
     setTimeout(() => {
       selectPerson(undefined, selectedUserId);
-    }, 100);
+    }, 1);
   }
 }
 
