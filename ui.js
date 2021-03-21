@@ -220,9 +220,11 @@ async function loadProfile() {
     profileHeading.innerHTML = html;
 
     const location = [profile.city, profile.state, profile.country].filter(s => s).join(', ');
+    const mapUrl = await getMapUrl(profile.city, profile.state, profile.country);
     const profileDetail = document.querySelector('#profile div');
     html = `
       <table>
+        <tr><td colspan="2"><img class="map" src=${mapUrl} /></td></tr>
         <tr><td>Job title</td><td>${profile.jobTitle}</td></tr>
         <tr><td>Department</td><td>${profile.department}</td></tr>
         <tr><td>Location</td><td>${location}</td></tr>

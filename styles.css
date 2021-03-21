@@ -134,3 +134,7 @@ mgt-agenda {
   border-bottom: 1px solid black;
   padding: 3pt 6pt;
 }
+
+#profile .map {
+  max-width: 100%;
+}
