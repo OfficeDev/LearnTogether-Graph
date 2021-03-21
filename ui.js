@@ -1,3 +1,5 @@
+//#region Set up UI
+
 async function displayUI(auto) {
   if (auto) {
     const loggedIn = await silentSignIn();
@@ -33,6 +35,10 @@ async function loadData() {
     loadTrendingFiles()
   ]);
 }
+
+//#endregion
+
+//#region Colleagues
 
 function selectPerson(personElement, personId) {
   const selectedUserId = getSelectedUserId();
@@ -99,6 +105,17 @@ async function loadColleagues() {
   }
 }
 
+function getSelectedUserId() {
+  if (location.hash.length < 2) {
+    return undefined;
+  }
+
+  return location.hash.substr(1);
+}
+//#endregion
+
+//#region Email
+
 async function loadUnreadEmails() {
   const myUnreadEmails = await getMyUnreadEmails();
   const emailsLoading = document.querySelector('#emails .loading');
@@ -128,13 +145,18 @@ async function loadUnreadEmails() {
   });
 }
 
+//#endregion
+
+//#region Meetings
 //load meetings to MGT agenda component
 async function loadMeetings() {
   const myMeetings = await getMyUpcomingMeetings();
   const meetingsComponent = document.getElementById('myMeetings');
   meetingsComponent.events = myMeetings.value;
 }
+//#endregion
 
+//#region Files
 async function loadTrendingFiles() {
   const trendingFiles = await getTrendingFiles();
   const trendingLoading = document.querySelector('#trending .loading');
@@ -170,11 +192,4 @@ async function loadTrendingFiles() {
   });
   trendingList.innerHTML = html;
 }
-
-function getSelectedUserId() {
-  if (location.hash.length < 2) {
-    return undefined;
-  }
-
-  return location.hash.substr(1);
-}
+//#endregion
