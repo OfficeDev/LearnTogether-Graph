@@ -139,3 +139,17 @@ async function getTrendingFiles() {
   return result;
 }
 //#endregion
+
+//#region  Profile
+async function getProfile() {
+  const selectedUserId = getSelectedUserId();
+  const userQueryPart = selectedUserId ? `/users/${selectedUserId}` : '/me';
+
+  const profile = await graphClient
+    .api(`${userQueryPart}`)
+    .select('displayName,jobTitle,department,mail,city,state,country')
+    .get();
+
+  return profile;
+}
+//#endregion

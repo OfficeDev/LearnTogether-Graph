@@ -124,3 +124,13 @@ mgt-agenda {
   font-weight: var(--line3-font-weight,400);
   line-height: 16px;
 }
+
+#profile table {
+  border-collapse: collapse;
+}
+
+#profile td {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 3pt 6pt;
+}
