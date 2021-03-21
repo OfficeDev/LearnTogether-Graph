@@ -20,6 +20,7 @@
 
     <div class="ms-Grid">
       <div class="ms-Grid-row">
+        <!-- Column 1-->
         <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
 
           <!-- Colleagues -->
@@ -29,31 +30,13 @@
             <ul></ul>
           </div>
 
-          <!-- Files -->
-          <div id="trending">
-            <h2>Trending files</h2>
-            <span class="loading">Loading trending files...</span>
-            <ul></ul>
+          <!-- Profile -->
+          <div id="profile" style="display: none;">
+            <h2>Profile</h2>
+            <div></div>
           </div>
-        </div>
-
-        <!-- Profile -->
-        <div id="profile" style="display: none;">
-          <h2>Profile</h2>
-          <div></div>
-        </div>
-
-        <!-- Email -->
-        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
-          <div id="emails">
-            <h2>Your unread emails</h2>
-            <span class="loading">Loading unread emails...</span>
-            <ul></ul>
-          </div>
-        </div>
-
-        <!-- Events -->
-        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
+          
+          <!-- Events -->
           <div id="events">
             <h2>Upcoming meetings for next week</h2>
             <mgt-agenda id="myMeetings">
@@ -82,8 +65,33 @@
               </template>
             </mgt-agenda>
           </div>
-        </div>
         
+        </div>
+
+        <!-- Column 2-->
+        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
+
+          <!-- Email -->
+          <div id="emails">
+            <h2>Your unread emails</h2>
+            <span class="loading">Loading unread emails...</span>
+            <ul></ul>
+          </div>
+
+        </div>
+
+        <!-- Column 3 -->
+        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
+
+          <!-- Files -->
+          <div id="trending">
+            <h2>Trending files</h2>
+            <span class="loading">Loading trending files...</span>
+            <ul></ul>
+          </div>          
+
+        </div>
+
       </div>
     </div>
   </div>

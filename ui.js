@@ -151,9 +151,18 @@ async function loadUnreadEmails() {
 //#region Meetings
 //load meetings to MGT agenda component
 async function loadMeetings() {
-  const myMeetings = await getMyUpcomingMeetings();
-  const meetingsComponent = document.getElementById('myMeetings');
-  meetingsComponent.events = myMeetings.value;
+  const eventsDiv = document.querySelector('#events');
+  if (!getSelectedUserId()) {
+    const myMeetings = await getMyUpcomingMeetings();
+    const meetingsComponent = document.getElementById('myMeetings');
+    meetingsComponent.events = myMeetings.value;
+  
+    // Reveal the events on this user's page
+    eventsDiv.style = 'display: inline';
+  } else {
+    // Hide the events UI on another user's page
+    eventsDiv.style = 'display: none';
+  }
 }
 //#endregion
 
@@ -199,6 +208,8 @@ async function loadTrendingFiles() {
 
 async function loadProfile() {
 
+  const profileDiv = document.querySelector('#profile');
+
   // Only show the profile if a different user is selected
   if (getSelectedUserId()) {
     const profile = await getProfile();
@@ -219,9 +230,14 @@ async function loadProfile() {
     `;
     profileDetail.innerHTML = html;
 
-    // Reveal the profile UI
-    const profileDiv = document.querySelector('#profile');
+    // Reveal the profile UI on another user's page
     profileDiv.style = 'display: inline';
+
+  } else {
+
+    // Hide the profile UI on the current user's page
+    profileDiv.style = 'display: none';
+
   }
 }
 
