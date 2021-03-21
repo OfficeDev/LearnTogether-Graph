@@ -1,3 +1,5 @@
+//#region Set up Graph provider
+
 // Create an authentication provider
 const authProvider = {
   getAccessToken: async () => {
@@ -14,6 +16,9 @@ async function getUser() {
     .select('id,displayName')
     .get();
 }
+//#endregion
+
+//#region Colleagues
 
 async function getMyColleagues() {
   // get my manager
@@ -54,7 +59,9 @@ async function getMyColleagues() {
 
   return colleagues;
 }
+//#endregion
 
+//#region  Email
 async function getMyUnreadEmails() {
   const selectedUserId = getSelectedUserId();
 
@@ -74,6 +81,17 @@ async function getMyUnreadEmails() {
     .get();
 }
 
+async function getEmailForUser(userId) {
+  const user = await graphClient
+    .api(`/users/${userId}`)
+    .select('mail')
+    .get();
+  return user.mail;
+}
+//#endregion
+
+//#region Meetings
+
 //get calendar events for upcoming week
 async function getMyUpcomingMeetings() {
   const dateNow = new Date();
@@ -85,7 +103,9 @@ async function getMyUpcomingMeetings() {
     .orderby(`start/DateTime`)
     .get();
 }
+//#endregion
 
+//#region Files
 async function getTrendingFiles() {
   result = [];
   const selectedUserId = getSelectedUserId();
@@ -118,11 +138,4 @@ async function getTrendingFiles() {
   }
   return result;
 }
-
-async function getEmailForUser(userId) {
-  const user = await graphClient
-    .api(`/users/${userId}`)
-    .select('mail')
-    .get();
-  return user.mail;
-}
+//#endregion
