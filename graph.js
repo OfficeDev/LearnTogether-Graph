@@ -147,7 +147,7 @@ async function getProfile() {
 
   const profile = await graphClient
     .api(`${userQueryPart}`)
-    .select('displayName,jobTitle,department,mail,city,state,country')
+    .select('displayName,jobTitle,department,mail,aboutMe,city,state,country')
     .get();
 
   return profile;
