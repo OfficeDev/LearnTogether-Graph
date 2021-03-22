@@ -13,9 +13,15 @@ async function displayUI(auto) {
 
   // Display info from user profile
   const user = await getUser();
+  const userPhoto=await getUserPhoto(user.id);
   var userName = document.getElementById('userName');
   userName.innerText = user.displayName;
-
+  //profile photo
+  var userPhotoComponent = document.getElementById('myProfileImage');
+  userPhotoComponent.src = URL.createObjectURL(userPhoto);
+  //Job Title
+  var userJobComponent= document.getElementById('myJob');
+  userJobComponent.innerHTML = user.jobTitle;
   // Hide login button and initial UI
   var signInButton = document.getElementById('signin');
   signInButton.style = "display: none";
@@ -148,17 +154,19 @@ async function loadUnreadEmails() {
 }
 
 //#endregion
-
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 //#region Meetings
 //load meetings to MGT agenda component
 async function loadMeetings() {
   const myMeetings = await getMyUpcomingMeetings();
   const meetingsComponent = document.getElementById('myMeetings');
   const noMeetingMessage=document.getElementById('noMeetingMsg');
-
+  
   if(myMeetings.length>0){ 
     noMeetingMessage.style = 'display: none';
-  meetingsComponent.events = myMeetings;
+    meetingsComponent.events = myMeetings;
   }else{
   noMeetingMessage.style = 'display: block';
   meetingsComponent.events=[];
@@ -204,3 +212,4 @@ async function loadTrendingFiles() {
   trendingList.innerHTML = html;
 }
 //#endregion
+

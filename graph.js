@@ -13,7 +13,7 @@ const graphClient = MicrosoftGraph.Client.initWithMiddleware({ authProvider });
 async function getUser() {
   return await graphClient
     .api('/me')
-    .select('id,displayName')
+    .select('id,displayName,jobTitle')
     .get();
 }
 //#endregion
@@ -106,20 +106,7 @@ async function getMyUpcomingMeetings() {
     .orderby(`start/DateTime`)
     .get();
   results = response.value;
-    // get photos
-    
- result.forEach(val => {
-      const attendeesList = val["attendees"];
-      attendeesList.forEach(async attendee => {  
-      const photo=await graphClient
-            .api(`/users/${attendee.emailAddress.address}/photo/$value`)
-            .get();          
-        attendee.personImage = URL.createObjectURL(photo);        
-      });    
-    
-  });
-
-  //if filter is applied, select meeting you have with the selected Colleague.
+     //if filter is applied, select meeting you have with the selected Colleague.
   if (selectedUserId) {
     results=[];
     const selectedUsersEmail = await getEmailForUser(selectedUserId);
@@ -133,6 +120,28 @@ async function getMyUpcomingMeetings() {
       });
     });
   }
+  //photos of attendees
+  var photoRequests=[];
+  results.forEach(async val => {
+    // get attendees' photos
+     val["attendees"].forEach(
+      attendee => {
+        photoRequests.push( graphClient
+          .api(`/users/${attendee.emailAddress.address}/photo/$value`)
+          .get())
+       }
+      );
+  });
+   
+const attendeePhotos = await Promise.allSettled(photoRequests);
+results.forEach(async val => {
+        val["attendees"].forEach((attendee, i) => {
+          if (attendeePhotos[i].status === 'fulfilled') {
+            attendee.personImage = URL.createObjectURL(attendeePhotos[i].value);
+          }
+        });
+      });
+      
   return results;
 }
 //#endregion
@@ -171,3 +180,9 @@ async function getTrendingFiles() {
   return result;
 }
 //#endregion
+getUserPhoto = async (userId)=>{
+  const photo=graphClient
+  .api(`/users/${userId}/photo/$value`)
+  .get();
+  return photo;
+}

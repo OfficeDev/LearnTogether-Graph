@@ -14,10 +14,17 @@
   <a id="signin" onclick="displayUI(); return false;" href="#">
     <img src="./images/ms-symbollockup_signin_light.png" alt="Sign in with Microsoft" />
   </a>
-
-  <div id="content" style="display: none;">
-    <h1>Welcome <span id="userName"></span></h1>
-
+  <div id="content" style="display: none;">   
+      <div class="card">
+          <canvas class="header-bg"  height="70" id="header-blur"></canvas>
+          <div class="avatar">
+              <img id="myProfileImage" src="" alt="" />
+          </div>
+          <div class="about">
+            <h1><span id="userName"></span></h1>
+               <p id="myJob"></p>
+          </div>    
+  </div>
     <div class="ms-Grid">
       <div class="ms-Grid-row">
         <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
@@ -52,7 +59,7 @@
             <h2>Upcoming meetings for next week</h2>
             <mgt-agenda id="myMeetings">
               <template>
-                <div class="details" data-for="event in events">
+                <div class="details ms-depth-8" data-for="event in events">
                   <div>
                     <div class="subject ms-fontWeight-bold ms-color-sharedCyanBlue20">{{ event.subject }}</div>
                     <div class="date">{{ dayFromDateTime(event.start.dateTime) }}</div>
@@ -65,8 +72,8 @@
                       target="_blank"><b>{{ event.location.displayName }}</b></a>
                   </div>
                   <div class="attendees" data-if="event.attendees.length">
-                    <span class="attendee" data-for="attendee in event.attendees">
-                      <mgt-person person-query="{{attendee}}"></mgt-person>
+                    <span class="attendee" data-for="attendee in event.attendees">                       
+                     <img src="{{attendee.personImage}}">
                     </span>
                   </div>
                   <div class="online-meeting" data-if="event.bodyPreview.includes('Join Microsoft Teams Meeting')">
