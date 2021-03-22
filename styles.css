@@ -43,6 +43,10 @@ ul {
 .location {
   font-size: 12px;
 }
+.location a{
+
+  text-decoration: none;
+}
 
 .details {
   margin-bottom: 20px;
@@ -123,4 +127,7 @@ mgt-agenda {
   font-size: var(--line3-font-size,var(--size-font-size,12px));
   font-weight: var(--line3-font-weight,400);
   line-height: 16px;
+}
+.subject{
+  font-size: 14px;
 }

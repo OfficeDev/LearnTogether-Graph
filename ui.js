@@ -64,12 +64,14 @@ function selectPerson(personElement, personId) {
     const personName = personElement.dataset['personname'];
     document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
     document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
+    document.querySelector('#events h2').innerHTML = `You upcoming meetings next week with ${personName}`;
   }
 
   document.querySelector('#emails .loading').style = 'display: block';
   document.querySelector('#trending .loading').style = 'display: block';
   document.querySelector('#emails ul').innerHTML = '';
   document.querySelector('#trending ul').innerHTML = '';
+
 
   loadData();
 }
@@ -152,7 +154,16 @@ async function loadUnreadEmails() {
 async function loadMeetings() {
   const myMeetings = await getMyUpcomingMeetings();
   const meetingsComponent = document.getElementById('myMeetings');
-  meetingsComponent.events = myMeetings.value;
+  const noMeetingMessage=document.getElementById('noMeetingMsg');
+
+  if(myMeetings.length>0){ 
+    noMeetingMessage.style = 'display: none';
+  meetingsComponent.events = myMeetings;
+  }else{
+  noMeetingMessage.style = 'display: block';
+  meetingsComponent.events=[];
+ 
+  }  
 }
 //#endregion
 

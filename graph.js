@@ -94,14 +94,46 @@ async function getEmailForUser(userId) {
 
 //get calendar events for upcoming week
 async function getMyUpcomingMeetings() {
+  const selectedUserId = getSelectedUserId();
   const dateNow = new Date();
   const dateNextWeek = new Date();
   dateNextWeek.setDate(dateNextWeek.getDate() + 7);
-  return await graphClient
+  const query = `startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}`;
+  var results = [];
+  const response = await graphClient
     .api(`/me/calendar/calendarView`)
-    .query(`startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}`)
+    .query(query)
     .orderby(`start/DateTime`)
     .get();
+  results = response.value;
+    // get photos
+    
+ result.forEach(val => {
+      const attendeesList = val["attendees"];
+      attendeesList.forEach(async attendee => {  
+      const photo=await graphClient
+            .api(`/users/${attendee.emailAddress.address}/photo/$value`)
+            .get();          
+        attendee.personImage = URL.createObjectURL(photo);        
+      });    
+    
+  });
+
+  //if filter is applied, select meeting you have with the selected Colleague.
+  if (selectedUserId) {
+    results=[];
+    const selectedUsersEmail = await getEmailForUser(selectedUserId);
+    const meetings = response.value;
+    meetings.forEach(meeting => {
+      const attendeesList = meeting["attendees"];
+      attendeesList.forEach(attendee => {
+        if (attendee.emailAddress.address == selectedUsersEmail) {
+          results.push(meeting);
+        }
+      });
+    });
+  }
+  return results;
 }
 //#endregion
 

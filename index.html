@@ -54,18 +54,19 @@
               <template>
                 <div class="details" data-for="event in events">
                   <div>
+                    <div class="subject ms-fontWeight-bold ms-color-sharedCyanBlue20">{{ event.subject }}</div>
                     <div class="date">{{ dayFromDateTime(event.start.dateTime) }}</div>
                     <div class="time">{{ timeRangeFromEvent(event) }}</div>
                   </div>
-                  <div class="subject">{{ event.subject }}</div>
+                 
                   <div class="location" data-if="event.location.displayName">
-                    at
-                    <a href="https://bing.com/maps/default.aspx?where1={{event.location.displayName}}"
+                    📍
+                    <a  href="https://bing.com/maps/default.aspx?where1={{event.location.displayName}}"
                       target="_blank"><b>{{ event.location.displayName }}</b></a>
                   </div>
                   <div class="attendees" data-if="event.attendees.length">
                     <span class="attendee" data-for="attendee in event.attendees">
-                      <mgt-person person-query="{{attendee.emailAddress.name}}"></mgt-person>
+                      <mgt-person person-query="{{attendee}}"></mgt-person>
                     </span>
                   </div>
                   <div class="online-meeting" data-if="event.bodyPreview.includes('Join Microsoft Teams Meeting')">
@@ -75,6 +76,7 @@
                 </div>
               </template>
             </mgt-agenda>
+            <p id="noMeetingMsg">It's quiet here 🔕</p>
           </div>
         </div>
         
