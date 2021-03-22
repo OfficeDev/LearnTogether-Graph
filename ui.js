@@ -79,6 +79,10 @@ function selectPerson(personElement, personId) {
     personElement = document.querySelector(`#colleagues li[data-personid="${personId}"]`);
   }
 
+  const allColleaguesMapElement = document.querySelector('#allColleaguesMap');
+  if (allColleaguesMapElement) {
+    allColleaguesMapElement.style = personElement ? "display:none" : "display:inline";
+  }
   if (personElement) {
     personElement.className += 'selected';
     const personName = personElement.dataset['personname'];
@@ -107,7 +111,7 @@ function selectPerson(personElement, personId) {
 }
 
 async function loadColleagues() {
-  const myColleagues = await getMyColleagues();
+  const { myColleagues, mapUrl } = await getMyColleagues();
   document.querySelector('#colleagues .loading').style = 'display: none';
 
   const colleaguesList = document.querySelector('#colleagues ul');
@@ -135,6 +139,16 @@ async function loadColleagues() {
       selectPerson(undefined, selectedUserId);
     }, 1);
   }
+
+  const mapLi = document.createElement('li');
+  mapLi.setAttribute("id","allColleaguesMap");
+  mapLi.style = selectedUserId ? "display:none" : "display:inline";
+  mapImage = document.createElement('img');
+  mapImage.setAttribute("src", mapUrl);
+  mapImage.setAttribute("class", "map");
+  mapLi.append(mapImage);
+  colleaguesList.append(mapLi);
+
 }
 
 function getSelectedUserId() {
@@ -205,8 +219,6 @@ async function loadTrendingFiles() {
   const trendingList = document.querySelector('#trending ul');
   trendingList.innerHTML = '';
 
-  console.log ("TRENDING FILES LENGTH IS " + trendingFiles.length);
-
   if (trendingFiles.length === 0) {
 
     document.querySelector('#trending .noContent').style = 'display: block';
@@ -236,7 +248,7 @@ async function loadProfile() {
 
   // Fill in the data
   const aboutMe = profile.aboutMe ? profile.aboutMe : "User did not complete the about me portion of their profile";
-  const mapUrl = await getMapUrl(profile.city, profile.state, profile.country);
+  const mapUrl = await getMapUrl([{city: profile.city, state: profile.state, country: profile.country}]);
   const profileDetail = document.querySelector('#profile div');
   html = `
       <table>
