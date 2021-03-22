@@ -74,6 +74,34 @@ async function getMyColleagues() {
 
   return colleagues;
 }
+
+async function getUserPhoto(userId) {
+  return graphClient
+    .api(`/users/${userId}/photo/$value`)
+    .get();
+}
+
+async function getTimezoneInfo(city, state, country) {
+  const query = [city, state, country].join(', ');
+  const result = await fetch(`https://dev.virtualearth.net/REST/v1/TimeZone/?query=${query}&key=${constants.bingMapsApiKey}`);
+  if (result.ok) {
+    const json = await result.json();
+    return json.resourceSets[0].resources[0].timeZoneAtLocation[0].timeZone[0];
+  }
+  else {
+    throw result.error;
+  }
+}
+
+function toShortTimeString(date) {
+  const timeString = date.toLocaleTimeString();
+  const match = timeString.match(/(\d+\:\d+)\:\d+(.*)/);
+  if (!match) {
+    return timeString;
+  }
+
+  return `${match[1]}${match[2]}`;
+}
 //#endregion
 
 //#region  Email
@@ -197,30 +225,3 @@ async function getProfile() {
 }
 //#endregion
 
-async function getUserPhoto(userId) {
-  return graphClient
-    .api(`/users/${userId}/photo/$value`)
-    .get();
-}
-
-async function getTimezoneInfo(city, state, country) {
-  const query = [city, state, country].join(', ');
-  const result = await fetch(`https://dev.virtualearth.net/REST/v1/TimeZone/?query=${query}&key=${constants.bingMapsApiKey}`);
-  if (result.ok) {
-    const json = await result.json();
-    return json.resourceSets[0].resources[0].timeZoneAtLocation[0].timeZone[0];
-  }
-  else {
-    throw result.error;
-  }
-}
-
-function toShortTimeString(date) {
-  const timeString = date.toLocaleTimeString();
-  const match = timeString.match(/(\d+\:\d+)\:\d+(.*)/);
-  if (!match) {
-    return timeString;
-  }
-
-  return `${match[1]}${match[2]}`;
-}
