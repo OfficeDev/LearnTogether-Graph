@@ -47,9 +47,7 @@ async function getMyColleagues() {
 
   // get colleagues' photos
   const colleaguesPhotosRequests = colleagues.value.map(
-    colleague => graphClient
-      .api(`/users/${colleague.id}/photo/$value`)
-      .get());
+    colleague => getUserPhoto(colleague.id));
   const colleaguesPhotos = await Promise.allSettled(colleaguesPhotosRequests);
   colleagues.value.forEach((colleague, i) => {
     if (colleaguesPhotos[i].status === 'fulfilled') {
@@ -99,50 +97,37 @@ async function getMyUpcomingMeetings() {
   const dateNextWeek = new Date();
   dateNextWeek.setDate(dateNextWeek.getDate() + 7);
   const query = `startDateTime=${dateNow.toISOString()}&endDateTime=${dateNextWeek.toISOString()}`;
-  var results = [];
+  var meetings = [];
   const response = await graphClient
     .api(`/me/calendar/calendarView`)
     .query(query)
     .orderby(`start/DateTime`)
     .get();
-  results = response.value;
-     //if filter is applied, select meeting you have with the selected Colleague.
+  meetings = response.value;
+  //if filter is applied, select meeting you have with the selected Colleague.
   if (selectedUserId) {
-    results=[];
     const selectedUsersEmail = await getEmailForUser(selectedUserId);
-    const meetings = response.value;
-    meetings.forEach(meeting => {
-      const attendeesList = meeting["attendees"];
-      attendeesList.forEach(attendee => {
-        if (attendee.emailAddress.address == selectedUsersEmail) {
-          results.push(meeting);
-        }
-      });
-    });
+    meetings = meetings.filter(meeting =>
+      meeting.attendees.some(attendee => attendee.emailAddress.address === selectedUsersEmail));
   }
   //photos of attendees
-  var photoRequests=[];
-  results.forEach(async val => {
+  var photoRequests = [];
+  meetings.forEach(meeting => {
     // get attendees' photos
-     val["attendees"].forEach(
-      attendee => {
-        photoRequests.push( graphClient
-          .api(`/users/${attendee.emailAddress.address}/photo/$value`)
-          .get())
-       }
-      );
+    meeting.attendees.forEach(
+      attendee => photoRequests.push(getUserPhoto(attendee.emailAddress.address)));
   });
-   
-const attendeePhotos = await Promise.allSettled(photoRequests);
-results.forEach(async val => {
-        val["attendees"].forEach((attendee, i) => {
-          if (attendeePhotos[i].status === 'fulfilled') {
-            attendee.personImage = URL.createObjectURL(attendeePhotos[i].value);
-          }
-        });
-      });
-      
-  return results;
+
+  const attendeePhotos = await Promise.allSettled(photoRequests);
+  meetings.forEach(meeting => {
+    meeting.attendees.forEach((attendee, i) => {
+      if (attendeePhotos[i].status === 'fulfilled') {
+        attendee.personImage = URL.createObjectURL(attendeePhotos[i].value);
+      }
+    });
+  });
+
+  return meetings;
 }
 //#endregion
 
@@ -166,12 +151,12 @@ async function getTrendingFiles() {
       { method: "GET" })
   }));
 
-  let batchContent = await (new MicrosoftGraph.BatchRequestContent(batchRequests)).getContent();
+  const batchContent = await (new MicrosoftGraph.BatchRequestContent(batchRequests)).getContent();
   const batchResponse = await graphClient
     .api('/$batch')
     .post(batchContent);
   const batchResponseContent = new MicrosoftGraph.BatchResponseContent(batchResponse);
-  for (let j=1; j<i; j++) {
+  for (let j = 1; j < i; j++) {
     let response = await batchResponseContent.getResponseById(j.toString());
     if (response.ok) {
       result.push(await response.json());
@@ -180,9 +165,9 @@ async function getTrendingFiles() {
   return result;
 }
 //#endregion
-getUserPhoto = async (userId)=>{
-  const photo=graphClient
-  .api(`/users/${userId}/photo/$value`)
-  .get();
-  return photo;
+
+async function getUserPhoto(userId) {
+  return graphClient
+    .api(`/users/${userId}/photo/$value`)
+    .get();
 }

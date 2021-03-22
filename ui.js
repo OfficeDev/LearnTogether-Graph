@@ -59,6 +59,7 @@ function selectPerson(personElement, personId) {
     personElement = undefined;
     document.querySelector('#emails h2').innerHTML = 'Your unread emails';
     document.querySelector('#trending h2').innerHTML = 'Trending files';
+    document.querySelector('#events h2').innerHTML = 'Your upcoming meetings next week';
   }
 
   location.hash = `#${personId}`;
@@ -76,22 +77,25 @@ function selectPerson(personElement, personId) {
     const personName = personElement.dataset['personname'];
     document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
     document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
-    document.querySelector('#events h2').innerHTML = `You upcoming meetings next week with ${personName}`;
+    document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;
   }
 
   document.querySelector('#emails .loading').style = 'display: block';
-  document.querySelector('#trending .loading').style = 'display: block';
+  document.querySelector('#emails .noContent').style = 'display: none';
   document.querySelector('#emails ul').innerHTML = '';
+  document.querySelector('#trending .loading').style = 'display: block';
+  document.querySelector('#trending .noContent').style = 'display: none';
   document.querySelector('#trending ul').innerHTML = '';
-
+  document.querySelector('#events .loading').style = 'display: block';
+  document.querySelector('#events .noContent').style = 'display: none';
+  document.querySelector('#events mgt-agenda').events = [];
 
   loadData();
 }
 
 async function loadColleagues() {
   const myColleagues = await getMyColleagues();
-  const colleaguesLoading = document.querySelector('#colleagues .loading');
-  colleaguesLoading.style = 'display: none';
+  document.querySelector('#colleagues .loading').style = 'display: none';
 
   const colleaguesList = document.querySelector('#colleagues ul');
   myColleagues.value.forEach(person => {
@@ -132,11 +136,15 @@ function getSelectedUserId() {
 
 async function loadUnreadEmails() {
   const myUnreadEmails = await getMyUnreadEmails();
-  const emailsLoading = document.querySelector('#emails .loading');
-  emailsLoading.style = 'display: none';
+  document.querySelector('#emails .loading').style = 'display: none';
 
   const emailsList = document.querySelector('#emails ul');
   emailsList.innerHTML = '';
+
+  if (myUnreadEmails.value.length === 0) {
+    document.querySelector('#emails .noContent').style = 'display: block';
+    return;
+  }
 
   myUnreadEmails.value.forEach(email => {
     const emailLi = document.createElement('li');
@@ -160,23 +168,17 @@ async function loadUnreadEmails() {
 }
 
 //#endregion
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+
 //#region Meetings
 //load meetings to MGT agenda component
 async function loadMeetings() {
   const myMeetings = await getMyUpcomingMeetings();
-  const meetingsComponent = document.getElementById('myMeetings');
-  const noMeetingMessage = document.getElementById('noMeetingMsg');
+  document.querySelector('#events mgt-agenda').events = myMeetings;
+  document.querySelector('#events .loading').style = 'display: none';
 
-  if (myMeetings.length > 0) {
-    noMeetingMessage.style = 'display: none';
-    meetingsComponent.events = myMeetings;
-  } else {
-    noMeetingMessage.style = 'display: block';
-    meetingsComponent.events = [];
-
+  if (myMeetings.length === 0) {
+    document.querySelector('#events .noContent').style = 'display: block';
+    return;
   }
 }
 //#endregion
@@ -184,11 +186,15 @@ async function loadMeetings() {
 //#region Files
 async function loadTrendingFiles() {
   const trendingFiles = await getTrendingFiles();
-  const trendingLoading = document.querySelector('#trending .loading');
-  trendingLoading.style = 'display: none';
+  document.querySelector('#trending .loading').style = 'display: none';
 
   const trendingList = document.querySelector('#trending ul');
   trendingList.innerHTML = '';
+
+  if (trendingFiles.length === 0) {
+    document.querySelector('#trending .noContent').style = 'display: block';
+    return;
+  }
 
   let html = "";
 
