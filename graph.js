@@ -39,6 +39,12 @@ async function getMyColleagues() {
     .select('id,displayName,jobTitle,department,city,state,country')
     .get();
 
+  // plot everyone on a map
+  const places = colleagues.value.map(
+    colleague => ({ city: colleague.city, state: colleague.state, country: colleague.country })
+  );
+  const mapUrl = await getMapUrl(places);
+  
   // exclude the current user, since this is not supported in Graph, we need to
   // do it locally
   const accountName = sessionStorage.getItem('msalAccount');
@@ -72,7 +78,7 @@ async function getMyColleagues() {
     }
   });
 
-  return colleagues;
+  return ({myColleagues: colleagues, mapUrl: mapUrl });
 }
 
 async function getUserPhoto(userId) {
