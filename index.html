@@ -59,14 +59,12 @@
           <div id="events">
             <h2>Upcoming meetings for next week</h2>
             <mgt-agenda group-by-day id="myMeetings">
-              <template>
-                <div class="details ms-depth-8" data-for="event in events">
+              <template data-type="event">
+                <div class="details ms-depth-8">
                   <div>
                     <div class="subject ms-fontWeight-bold ms-color-sharedCyanBlue20">{{ event.subject }}</div>
-                    <div class="date">{{ dayFromDateTime(event.start.dateTime) }}</div>
                     <div class="time">{{ timeRangeFromEvent(event) }}</div>
                   </div>
-
                   <div class="location" data-if="event.location.displayName">
                     📍
                     <a href="https://bing.com/maps/default.aspx?where1={{event.location.displayName}}"
@@ -83,8 +81,10 @@
                   </div>
                 </div>
               </template>
+              <template data-type="no-data">
+                <p id="noMeetingMsg">It's quiet here 🔕</p>
+              </template>
             </mgt-agenda>
-            <p id="noMeetingMsg">It's quiet here 🔕</p>
           </div>
         </div>
 
