@@ -44,7 +44,8 @@ async function loadData() {
   await Promise.all([
     loadUnreadEmails(),
     loadMeetings(),
-    loadTrendingFiles()
+    loadTrendingFiles(),
+    loadProfile()
   ]);
 }
 
@@ -224,4 +225,46 @@ async function loadTrendingFiles() {
   trendingList.innerHTML = html;
 }
 //#endregion
+
+//#region Profile
+
+async function loadProfile() {
+
+  const profileDiv = document.querySelector('#profile');
+
+  // Only show the profile if a different user is selected
+  if (getSelectedUserId()) {
+    const profile = await getProfile();
+
+    // Fill in the data
+    const profileHeading = document.querySelector('#profile h2');
+    let html = `Profile for ${profile.displayName}`;
+    profileHeading.innerHTML = html;
+
+    const aboutMe = profile.aboutMe ? profile.aboutMe : "User did not complete the about me portion of their profile";
+    const location = [profile.city, profile.state, profile.country].filter(s => s).join(', ');
+    const mapUrl = await getMapUrl(profile.city, profile.state, profile.country);
+    const profileDetail = document.querySelector('#profile div');
+    html = `
+      <table>
+        <tr><td colspan="2">${aboutMe}</td></tr>
+        <tr><td>Job title</td><td>${profile.jobTitle}</td></tr>
+        <tr><td>Department</td><td>${profile.department}</td></tr>
+        <tr><td>Mail</td><td>${profile.mail}</td></tr>
+        <tr><td>Location</td><td>${location}</td></tr>
+        <tr><td colspan="2"><img class="map" src=${mapUrl} /></td></tr>
+      </table>
+    `;
+    profileDetail.innerHTML = html;
+
+    // Reveal the profile UI on another user's page
+    profileDiv.style = 'display: inline';
+
+  } else {
+
+    // Hide the profile UI on the current user's page
+    profileDiv.style = 'display: none';
+
+  }
+}
 

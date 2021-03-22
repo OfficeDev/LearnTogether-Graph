@@ -172,3 +172,17 @@ ul {
   -moz-border-radius: 50%;
   border-radius: 50%;
 }
+
+#profile table {
+  border-collapse: collapse;
+}
+
+#profile td {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 3pt 6pt;
+}
+
+#profile .map {
+  max-width: 100%;
+}
