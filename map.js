@@ -11,7 +11,7 @@ async function getMapUrl(city, state, country) {
 
     } else {
 
-        const response = await fetch(`http://dev.virtualearth.net/REST/v1/Locations?countryRegion=${country}&adminDistrict=${state}&locality={city}&key=${constants.bingMapsApiKey}`,
+        const response = await fetch(`http://dev.virtualearth.net/REST/v1/Locations?countryRegion=${country}&adminDistrict=${state}&locality=${city}&key=${constants.bingMapsApiKey}`,
             {
                 method: 'GET',
                 headers: { "accept": "application/json" },

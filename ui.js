@@ -107,8 +107,9 @@ async function loadColleagues() {
 
     const mgtPerson = document.createElement('mgt-person');
     mgtPerson.personDetails = person;
-    mgtPerson.line2Property = 'jobTitle';
-    mgtPerson.view = mgt.ViewType.twolines;
+    mgtPerson.line2Property = 'jobTitleAndDepartment';
+    mgtPerson.line3Property = 'localTime';
+    mgtPerson.view = mgt.ViewType.threelines;
 
     colleagueLi.append(mgtPerson);
     colleaguesList.append(colleagueLi);
