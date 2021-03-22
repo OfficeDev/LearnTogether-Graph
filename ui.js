@@ -65,9 +65,15 @@ function selectPerson(personElement, personId) {
 
   location.hash = `#${personId}`;
 
+  // unselect all users
   document
     .querySelectorAll('#colleagues li.selected')
     .forEach(elem => elem.className = elem.className.replace('selected', ''));
+  // remove profile
+  const profile = document.getElementById('profile');
+  if (profile) {
+    profile.parentNode.removeChild(profile);
+  }
 
   if (!personElement) {
     personElement = document.querySelector(`#colleagues li[data-personid="${personId}"]`);
@@ -79,6 +85,12 @@ function selectPerson(personElement, personId) {
     document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
     document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
     document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;
+
+    const profileElement = document.createElement('div');
+    profileElement.setAttribute('id', 'profile');
+    profileElement.className = 'ms-motion-slideDownIn';
+    profileElement.innerHTML = '<div></div>';
+    personElement.parentNode.insertBefore(profileElement, personElement.nextSibling);
   }
 
   document.querySelector('#emails .loading').style = 'display: block';
@@ -230,42 +242,18 @@ async function loadTrendingFiles() {
 //#region Profile
 
 async function loadProfile() {
+  const profile = await getProfile();
 
-  const profileDiv = document.querySelector('#profile');
-
-  // Only show the profile if a different user is selected
-  if (getSelectedUserId()) {
-    const profile = await getProfile();
-
-    // Fill in the data
-    const profileHeading = document.querySelector('#profile h2');
-    let html = `Profile for ${profile.displayName}`;
-    profileHeading.innerHTML = html;
-
-    const aboutMe = profile.aboutMe ? profile.aboutMe : "User did not complete the about me portion of their profile";
-    const location = [profile.city, profile.state, profile.country].filter(s => s).join(', ');
-    const mapUrl = await getMapUrl(profile.city, profile.state, profile.country);
-    const profileDetail = document.querySelector('#profile div');
-    html = `
+  // Fill in the data
+  const aboutMe = profile.aboutMe ? profile.aboutMe : "User did not complete the about me portion of their profile";
+  const mapUrl = await getMapUrl(profile.city, profile.state, profile.country);
+  const profileDetail = document.querySelector('#profile div');
+  html = `
       <table>
-        <tr><td colspan="2">${aboutMe}</td></tr>
-        <tr><td>Job title</td><td>${profile.jobTitle}</td></tr>
-        <tr><td>Department</td><td>${profile.department}</td></tr>
+        <tr><td colspan="2">About:<br/><br/>${aboutMe}</td></tr>
         <tr><td>Mail</td><td>${profile.mail}</td></tr>
-        <tr><td>Location</td><td>${location}</td></tr>
         <tr><td colspan="2"><img class="map" src=${mapUrl} /></td></tr>
       </table>
     `;
-    profileDetail.innerHTML = html;
-
-    // Reveal the profile UI on another user's page
-    profileDiv.style = 'display: inline';
-
-  } else {
-
-    // Hide the profile UI on the current user's page
-    profileDiv.style = 'display: none';
-
-  }
+  profileDetail.innerHTML = html;
 }
-
