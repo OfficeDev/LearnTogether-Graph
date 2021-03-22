@@ -247,12 +247,12 @@ async function loadProfile() {
   const profile = await getProfile();
 
   // Fill in the data
-  const aboutMe = profile.aboutMe ? profile.aboutMe : "User did not complete the about me portion of their profile";
+  const aboutMe = profile.aboutMe ? profile.aboutMe : "";
   const mapUrl = await getMapUrl([{city: profile.city, state: profile.state, country: profile.country}]);
   const profileDetail = document.querySelector('#profile div');
   html = `
       <table>
-        <tr><td colspan="2">About:<br/><br/>${aboutMe}</td></tr>
+        <tr><td colspan="2">${aboutMe}</td></tr>
         <tr><td>Mail</td><td>${profile.mail}</td></tr>
         <tr><td colspan="2"><img class="map" src=${mapUrl} /></td></tr>
       </table>
