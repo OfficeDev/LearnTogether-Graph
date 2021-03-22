@@ -13,14 +13,20 @@ async function displayUI(auto) {
 
   // Display info from user profile
   const user = await getUser();
-  const userPhoto=await getUserPhoto(user.id);
+
+  try {
+    const userPhoto = await getUserPhoto(user.id);
+    user.personImage = URL.createObjectURL(userPhoto);
+  }
+  catch { }
+
+  const myAvatar = document.querySelector('.card mgt-person');
+  myAvatar.personDetails = user;
+
   var userName = document.getElementById('userName');
   userName.innerText = user.displayName;
-  //profile photo
-  var userPhotoComponent = document.getElementById('myProfileImage');
-  userPhotoComponent.src = URL.createObjectURL(userPhoto);
   //Job Title
-  var userJobComponent= document.getElementById('myJob');
+  var userJobComponent = document.getElementById('myJob');
   userJobComponent.innerHTML = user.jobTitle;
   // Hide login button and initial UI
   var signInButton = document.getElementById('signin');
@@ -162,16 +168,16 @@ function sleep(ms) {
 async function loadMeetings() {
   const myMeetings = await getMyUpcomingMeetings();
   const meetingsComponent = document.getElementById('myMeetings');
-  const noMeetingMessage=document.getElementById('noMeetingMsg');
-  
-  if(myMeetings.length>0){ 
+  const noMeetingMessage = document.getElementById('noMeetingMsg');
+
+  if (myMeetings.length > 0) {
     noMeetingMessage.style = 'display: none';
     meetingsComponent.events = myMeetings;
-  }else{
-  noMeetingMessage.style = 'display: block';
-  meetingsComponent.events=[];
- 
-  }  
+  } else {
+    noMeetingMessage.style = 'display: block';
+    meetingsComponent.events = [];
+
+  }
 }
 //#endregion
 
@@ -190,10 +196,10 @@ async function loadTrendingFiles() {
 
     const name = file.name;
     const extension = file.name.split('.').slice(-1)[0].toLowerCase();
-    iconUrl = ['docx','xlsx','pptx','vsdx','msg','mpp'].includes(extension) ?
-              `https://static2.sharepointonline.com/files/fabric/assets/item-types/48_1.5x/${extension}.svg` :
-              "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="; // single blank pixel
-    const modified = new Date (file.lastModifiedDateTime).toLocaleDateString();
+    iconUrl = ['docx', 'xlsx', 'pptx', 'vsdx', 'msg', 'mpp'].includes(extension) ?
+      `https://static2.sharepointonline.com/files/fabric/assets/item-types/48_1.5x/${extension}.svg` :
+      "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="; // single blank pixel
+    const modified = new Date(file.lastModifiedDateTime).toLocaleDateString();
     const size = (file.size / 1000000).toFixed(2) + "MB";
     const webUrl = file.webUrl;
 

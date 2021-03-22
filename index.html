@@ -14,17 +14,15 @@
   <a id="signin" onclick="displayUI(); return false;" href="#">
     <img src="./images/ms-symbollockup_signin_light.png" alt="Sign in with Microsoft" />
   </a>
-  <div id="content" style="display: none;">   
-      <div class="card">
-          <canvas class="header-bg"  height="70" id="header-blur"></canvas>
-          <div class="avatar">
-              <img id="myProfileImage" src="" alt="" />
-          </div>
-          <div class="about">
-            <h1><span id="userName"></span></h1>
-               <p id="myJob"></p>
-          </div>    
-  </div>
+  <div id="content" style="display: none;">
+    <div class="card">
+      <canvas class="header-bg" height="70" id="header-blur"></canvas>
+      <mgt-person></mgt-person>
+      <div class="about">
+        <h1><span id="userName"></span></h1>
+        <p id="myJob"></p>
+      </div>
+    </div>
     <div class="ms-Grid">
       <div class="ms-Grid-row">
         <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
@@ -32,8 +30,9 @@
           <!-- Colleagues -->
           <div id="colleagues">
             <h2>Your colleagues</h2>
-            <span class="loading">Loading colleagues...</span>
+            <div class="loading">Loading colleagues...</div>
             <ul></ul>
+            <div class="noContent">You've got no colleagues 😳</div>
           </div>
 
           <!-- Files -->
@@ -41,6 +40,7 @@
             <h2>Trending files</h2>
             <span class="loading">Loading trending files...</span>
             <ul></ul>
+            <div class="noContent">No trending files found</div>
           </div>
         </div>
 
@@ -50,6 +50,7 @@
             <h2>Your unread emails</h2>
             <span class="loading">Loading unread emails...</span>
             <ul></ul>
+            <div class="noContent">No unread emails found</div>
           </div>
         </div>
 
@@ -65,15 +66,15 @@
                     <div class="date">{{ dayFromDateTime(event.start.dateTime) }}</div>
                     <div class="time">{{ timeRangeFromEvent(event) }}</div>
                   </div>
-                 
+
                   <div class="location" data-if="event.location.displayName">
                     📍
-                    <a  href="https://bing.com/maps/default.aspx?where1={{event.location.displayName}}"
+                    <a href="https://bing.com/maps/default.aspx?where1={{event.location.displayName}}"
                       target="_blank"><b>{{ event.location.displayName }}</b></a>
                   </div>
                   <div class="attendees" data-if="event.attendees.length">
-                    <span class="attendee" data-for="attendee in event.attendees">                       
-                     <img src="{{attendee.personImage}}">
+                    <span class="attendee" data-for="attendee in event.attendees">
+                      <img src="{{attendee.personImage}}">
                     </span>
                   </div>
                   <div class="online-meeting" data-if="event.bodyPreview.includes('Join Microsoft Teams Meeting')">
@@ -86,7 +87,7 @@
             <p id="noMeetingMsg">It's quiet here 🔕</p>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>

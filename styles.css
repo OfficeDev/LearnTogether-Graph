@@ -12,6 +12,10 @@ ul {
   margin-top: 8px;
 }
 
+.noContent {
+  display: none;
+}
+
 #colleagues li {
   cursor: pointer;
   padding: 14px;
@@ -137,7 +141,9 @@ ul {
   padding: 0;
   background-color: #284c79;
   color: rgb(136, 172, 217);
+  margin: -8px -8px 0 -8px;
 }
+
 .about{ margin-top:15px;}
 
 .card .header-bg {
@@ -149,20 +155,16 @@ ul {
   /* This positions the canvas under the text */
   z-index: 1;
 }
-.card .avatar {
+
+.card mgt-person {
   position: relative;
   margin-top: 15px;
   z-index: 100;
+  --avatar-size: 100px;
+  --avatar-border: 5px solid rgba(237, 237, 237, 0.6);
+  --avatar-border-radius: 50%;
 }
 
-.card .avatar img {
-  width: 100px;
-  height: 100px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
-    border: 5px solid rgba(237, 237, 237, 0.6);
-}
 .attendee{
   padding-right:2px;
 }
