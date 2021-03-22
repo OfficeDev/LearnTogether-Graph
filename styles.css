@@ -81,54 +81,11 @@ ul {
   display: inline-block;
 }
 
-.file {
-  font-family: var(--font-family,var(--default-font-family));
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-}
 
-.file .icon {
-  padding: 16px;
-  width: var(--file-type-icon-size,28px);
-  min-width: var(--file-type-icon-size,28px);
-  height: var(--file-type-icon-size,28px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.file .icon img {
-  height: var(--file-type-icon-size,28px);
-  width: var(--file-type-icon-size,28px);
-}
-
-.file .detail {
-  padding: 10px 0px;
-}
-
-.file .line1 {
-  font-size: var(--font-size,14px);
-  font-weight: var(--font-weight,400);
-  line-height: 20px;
-}
-
-.file .line2 {
-  color: var(--line2-color,var(--color-sub1,#323130));
-  font-size: var(--line2-font-size,var(--last-modified-font-size,12px));
-  font-weight: var(--line2-font-weight,400);
-  line-height: 16px;
-}
-
-.file .line3 {
-  color: var(--line3-color,var(--color-sub1,#323130));
-  font-size: var(--line3-font-size,var(--size-font-size,12px));
-  font-weight: var(--line3-font-weight,400);
-  line-height: 16px;
-}
 .subject{
   font-size: 14px;
 }
+
 .card {
   overflow: hidden;
   position: relative;

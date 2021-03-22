@@ -205,37 +205,27 @@ async function loadTrendingFiles() {
   const trendingList = document.querySelector('#trending ul');
   trendingList.innerHTML = '';
 
+  console.log ("TRENDING FILES LENGTH IS " + trendingFiles.length);
+
   if (trendingFiles.length === 0) {
+
     document.querySelector('#trending .noContent').style = 'display: block';
-    return;
+
+  } else {
+
+    trendingFiles.forEach(file => {
+
+      const fileLi = document.createElement('li');
+      fileLi.className = "ms-depth-8";
+  
+      const fileElement = document.createElement('mgt-file');
+      fileElement.driveItem = file;
+      fileLi.append(fileElement);
+      fileLi.addEventListener('click', () => { window.open(file.webUrl,'_blank'); });
+      trendingList.append(fileLi);
+    });
+    
   }
-
-  let html = "";
-
-  trendingFiles.forEach(file => {
-
-    const name = file.name;
-    const extension = file.name.split('.').slice(-1)[0].toLowerCase();
-    iconUrl = ['docx', 'xlsx', 'pptx', 'vsdx', 'msg', 'mpp'].includes(extension) ?
-      `https://static2.sharepointonline.com/files/fabric/assets/item-types/48_1.5x/${extension}.svg` :
-      "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="; // single blank pixel
-    const modified = new Date(file.lastModifiedDateTime).toLocaleDateString();
-    const size = (file.size / 1000000).toFixed(2) + "MB";
-    const webUrl = file.webUrl;
-
-    html += `
-      <li class="ms-depth-8">
-        <div class="file" onclick="window.open('${webUrl}','_blank');">
-          <div class="icon"><img src="${iconUrl}"></div>
-          <div class="detail">
-            <div class="line1">${name}</div>
-            <div class="line2">Modified ${modified}</div>
-            <div class="line3">Size: ${size}</div>
-          </div>
-        </div>
-      </li>`;
-  });
-  trendingList.innerHTML = html;
 }
 //#endregion
 
@@ -257,3 +247,5 @@ async function loadProfile() {
     `;
   profileDetail.innerHTML = html;
 }
+
+//#endregion
