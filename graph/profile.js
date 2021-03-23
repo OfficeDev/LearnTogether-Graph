@@ -1,4 +1,5 @@
 import { getSelectedUserId } from '../ui/colleagues.js';
+import graphClient from './graphClient.js';
 
 export async function getProfile() {
     const selectedUserId = getSelectedUserId();

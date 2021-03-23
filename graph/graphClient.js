@@ -5,5 +5,8 @@ const authProvider = {
       return await getToken();
     }
   };
-  // Initialize the Graph client
-  const graphClient = MicrosoftGraph.Client.initWithMiddleware({ authProvider });
+
+  // Graph client singleton
+const graphClient = MicrosoftGraph.Client.initWithMiddleware({ authProvider });
+
+export default graphClient;

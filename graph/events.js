@@ -1,6 +1,7 @@
 import { getSelectedUserId } from '../ui/colleagues.js';
 import { getUserPhoto } from '../graph/colleagues.js';
 import { getEmailForUser } from '../graph/email.js';
+import graphClient from './graphClient.js';
 
 //get calendar events for upcoming week
 export async function getMyUpcomingMeetings() {

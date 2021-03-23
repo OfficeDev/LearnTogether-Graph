@@ -1,4 +1,5 @@
 import { getMapUrl } from '../ui/profile.js';
+import graphClient from './graphClient.js';
 
 //#region Colleagues
 
