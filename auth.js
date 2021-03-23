@@ -11,12 +11,12 @@ const msalRequest = { scopes: ['User.Read.All', 'Sites.Read.All', 'Calendars.Rea
 const msalClient = new msal.PublicClientApplication(msalConfig);
 
 // Log the user in
-async function signIn() {
+export async function signIn() {
   const authResult = await msalClient.loginPopup(msalRequest);
   sessionStorage.setItem('msalAccount', authResult.account.username);
 }
 // try to sign user automatically in based on their previous session
-async function silentSignIn() {
+export async function silentSignIn() {
   const account = sessionStorage.getItem('msalAccount');
   if (!account) {
     return false;
@@ -35,8 +35,8 @@ async function silentSignIn() {
     return false;
   }
 }
-//Get token from Graph
-async function getToken() {
+
+export async function getToken() {
   const account = sessionStorage.getItem('msalAccount');
   if (!account) {
     throw new Error(
@@ -63,3 +63,8 @@ async function getToken() {
   }
 }
 
+export function getAccount() {
+  const accountName = sessionStorage.getItem('msalAccount');
+  const account = msalClient.getAccountByUsername(accountName);
+  return account;
+}
