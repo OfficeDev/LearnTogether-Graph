@@ -11,11 +11,6 @@ export function selectPerson(personElement, personId) {
     document
       .querySelectorAll('#colleagues li.selected')
       .forEach(elem => elem.className = elem.className.replace('selected', ''));
-    // remove profile
-    const profile = document.getElementById('profile');
-    if (profile) {
-      profile.parentNode.removeChild(profile);
-    }
   
     if (!personElement) {
       personElement = document.querySelector(`#colleagues li[data-personid="${personId}"]`);
