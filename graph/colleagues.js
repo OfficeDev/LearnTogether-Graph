@@ -1,5 +1,6 @@
 import { getMapUrl } from '../ui/profile.js';
 import graphClient from './graphClient.js';
+import { msalClient } from '../auth.js';
 
 //#region Colleagues
 

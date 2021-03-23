@@ -1,3 +1,5 @@
+import { getToken } from '../auth.js';
+
 // Create an authentication provider
 const authProvider = {
     getAccessToken: async () => {

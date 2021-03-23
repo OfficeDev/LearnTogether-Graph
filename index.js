@@ -5,6 +5,7 @@ import { loadMeetings } from './ui/events.js';
 import { loadTrendingFiles } from './ui/files.js';
 
 import { getUser, getUserPhoto } from './graph/colleagues.js';
+import { signIn } from './auth.js';
 
 async function displayUI(auto) {
     if (auto) {
