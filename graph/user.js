@@ -4,7 +4,6 @@ export function getSelectedUserId() {
   if (location.hash.length < 2) {
     return undefined;
   }
-
   return location.hash.substr(1);
 }
 

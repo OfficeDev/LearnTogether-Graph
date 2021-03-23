@@ -3,8 +3,6 @@ import graphClient from './graphClient.js';
 import { getAccount } from '../auth.js';
 import { getUserPhoto } from './user.js';
 
-//#region Colleagues
-
 export async function getMyColleagues() {
   // get my manager
   var manager;
