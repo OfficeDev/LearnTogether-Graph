@@ -1,4 +1,4 @@
-async function displayUI(auto) {
+export async function displayUI(auto) {
     if (auto) {
       const loggedIn = await silentSignIn();
       if (!loggedIn) {
