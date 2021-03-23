@@ -1,5 +1,4 @@
-import { getSelectedUserId } from './user.js';
-import { getUserPhoto } from '../graph/colleagues.js';
+import { getSelectedUserId, getUserPhoto } from './user.js';
 import { getEmailForUser } from '../graph/email.js';
 import graphClient from './graphClient.js';
 

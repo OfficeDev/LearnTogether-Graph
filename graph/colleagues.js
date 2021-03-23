@@ -1,6 +1,7 @@
 import { getMapUrl } from '../ui/profile.js';
 import graphClient from './graphClient.js';
 import { getAccount } from '../auth.js';
+import { getUserPhoto } from './user.js';
 
 //#region Colleagues
 
@@ -62,20 +63,6 @@ export async function getMyColleagues() {
   });
 
   return ({ myColleagues: colleagues, mapUrl: mapUrl });
-}
-
-//Get user info from Graph
-export async function getUser() {
-  return await graphClient
-    .api('/me')
-    .select('id,displayName,jobTitle')
-    .get();
-}
-
-export async function getUserPhoto(userId) {
-  return graphClient
-    .api(`/users/${userId}/photo/$value`)
-    .get();
 }
 
 async function getTimezoneInfo(city, state, country) {
