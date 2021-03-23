@@ -1,6 +1,6 @@
 import { getMapUrl } from '../ui/profile.js';
 import graphClient from './graphClient.js';
-import { msalClient } from '../auth.js';
+import { getAccount } from '../auth.js';
 
 //#region Colleagues
 
@@ -31,8 +31,7 @@ export async function getMyColleagues() {
 
   // exclude the current user, since this is not supported in Graph, we need to
   // do it locally
-  const accountName = sessionStorage.getItem('msalAccount');
-  const account = msalClient.getAccountByUsername(accountName);
+  const account = getAccount();
   const currentUserId = account.homeAccountId.substr(0, account.homeAccountId.indexOf('.'));
   colleagues.value = colleagues.value.filter(c => c.id !== currentUserId);
 
