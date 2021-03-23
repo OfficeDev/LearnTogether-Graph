@@ -49,9 +49,7 @@
                     <div class="time">{{ timeRangeFromEvent(event) }}</div>
                   </div>
                   <div class="location" data-if="event.location.displayName">
-                    📍
-                    <a href="https://bing.com/maps/default.aspx?where1={{event.location.displayName}}"
-                      target="_blank"><b>{{ event.location.displayName }}</b></a>
+                    📍<span><b>{{ event.location.displayName }}</b></span>
                   </div>
                   <div class="attendees" data-if="event.attendees.length">
                     <span class="attendee" data-for="attendee in event.attendees">
