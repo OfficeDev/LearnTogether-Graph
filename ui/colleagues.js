@@ -8,7 +8,6 @@ export function selectPerson(personElement, personId) {
       personId = '';
       personElement = undefined;
       document.querySelector('#emails h2').innerHTML = 'Your unread emails';
-      document.querySelector('#trending h2').innerHTML = 'Trending files';
       document.querySelector('#events h2').innerHTML = 'Your upcoming meetings next week';
     }
   
@@ -32,16 +31,12 @@ export function selectPerson(personElement, personId) {
       personElement.className += 'selected';
       const personName = personElement.dataset['personname'];
       document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
-      document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
       document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;  
     }
   
     document.querySelector('#emails .loading').style = 'display: block';
     document.querySelector('#emails .noContent').style = 'display: none';
     document.querySelector('#emails ul').innerHTML = '';
-    document.querySelector('#trending .loading').style = 'display: block';
-    document.querySelector('#trending .noContent').style = 'display: none';
-    document.querySelector('#trending ul').innerHTML = '';
     document.querySelector('#events .loading').style = 'display: block';
     document.querySelector('#events .noContent').style = 'display: none';
     document.querySelector('#events mgt-agenda').events = [];
@@ -75,17 +70,7 @@ export function selectPerson(personElement, personId) {
       setTimeout(() => {
         selectPerson(undefined, selectedUserId);
       }, 1);
-    }
-  
-    const mapLi = document.createElement('li');
-    mapLi.setAttribute("id","allColleaguesMap");
-    mapLi.style = selectedUserId ? "display:none" : "display:inline";
-    const mapImage = document.createElement('img');
-    mapImage.setAttribute("src", mapUrl);
-    mapImage.setAttribute("class", "map");
-    mapLi.append(mapImage);
-    colleaguesList.append(mapLi);
-  
+    }  
   }
   
   
