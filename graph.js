@@ -82,7 +82,7 @@ async function getMyColleagues() {
 }
 
 async function getUserPhoto(userId) {
-  return graphClient
+ return graphClient
     .api(`/users/${userId}/photo/$value`)
     .get();
 }
@@ -171,9 +171,9 @@ async function getMyUpcomingMeetings() {
   const attendeePhotos = await Promise.allSettled(photoRequests);
   var count=0;
   meetings.forEach(meeting => {
-    meeting.attendees.forEach((attendee, i) => {
-      if (attendeePhotos[count].status === 'fulfilled' && count<attendeePhotos.length) {
-        attendee.personImage = URL.createObjectURL(attendeePhotos[count].value);
+    meeting.attendees.forEach((attendee) => {
+      if (count<attendeePhotos.length) {
+        attendee.personImage =attendeePhotos[count].status === 'fulfilled'?URL.createObjectURL(attendeePhotos[count].value):null;
         count+=1;
       }
     });

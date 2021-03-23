@@ -55,7 +55,12 @@
                   </div>
                   <div class="attendees" data-if="event.attendees.length">
                     <span class="attendee" data-for="attendee in event.attendees">
-                      <img src="{{attendee.personImage}}">
+                      <div data-if="attendee.personImage">
+                        <img alt="{{attendee.emailAddress.name}}" src="{{attendee.personImage}}" />
+                      </div>
+                        <div data-else>
+                         <mgt-person person-query="{{attendee.emailAddress.name}}"></mgt-person>
+                      </div>                     
                     </span>
                   </div>
                   <div class="online-meeting" data-if="event.bodyPreview.includes('Join Microsoft Teams Meeting')">
@@ -104,6 +109,7 @@
   <script src="ui.js"></script>
   <script src="date.js"></script>
   <script src="map.js"></script>
+  <script src="common.js"></script>
   <script>
     displayUI(true);
   </script>
