@@ -1,4 +1,6 @@
-async function loadUnreadEmails() {
+import { getMyUnreadEmails } from '../graph/email.js';
+
+export async function loadUnreadEmails() {
     const myUnreadEmails = await getMyUnreadEmails();
     document.querySelector('#emails .loading').style = 'display: none';
   
