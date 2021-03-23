@@ -19,7 +19,7 @@ export async function getMyUnreadEmails() {
     .get();
 }
 
-async function getEmailForUser(userId) {
+export async function getEmailForUser(userId) {
   const user = await graphClient
     .api(`/users/${userId}`)
     .select('mail')
