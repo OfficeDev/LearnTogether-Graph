@@ -4,6 +4,11 @@ import { getSelectedUserId, setSelectedUserId } from '../graph/user.js';
 
 export function selectPerson(personElement, personId) {
     const selectedUserId = getSelectedUserId();
+
+    if (personElement && selectedUserId === personId) {
+      personId = '';
+      personElement = undefined;
+    }
   
     setSelectedUserId(personId);
   
