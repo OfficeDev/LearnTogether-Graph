@@ -1,11 +1,13 @@
-async function loadProfile() {
+import { getProfile } from '../graph/profile.js';
+
+export async function loadProfile() {
     const profile = await getProfile();
   
     // Fill in the data
     const aboutMe = profile.aboutMe ? profile.aboutMe : "";
     const mapUrl = await getMapUrl([{city: profile.city, state: profile.state, country: profile.country}]);
     const profileDetail = document.querySelector('#profile div');
-    html = `
+    const html = `
         <table>
           <tr><td colspan="2">${aboutMe}</td></tr>
           <tr><td>Mail</td><td>${profile.mail}</td></tr>
@@ -16,7 +18,7 @@ async function loadProfile() {
   }
   
 
-async function getMapUrl(places) {
+export async function getMapUrl(places) {
 
     let points = "";
     let pointCount = 0;

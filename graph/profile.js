@@ -1,4 +1,6 @@
-async function getProfile() {
+import { getSelectedUserId } from '../ui/colleagues.js';
+
+export async function getProfile() {
     const selectedUserId = getSelectedUserId();
     const userQueryPart = selectedUserId ? `/users/${selectedUserId}` : '/me';
   

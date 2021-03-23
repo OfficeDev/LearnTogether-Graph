@@ -1,4 +1,6 @@
 import { loadUnreadEmails } from './ui/email.js';
+import { loadProfile } from './ui/profile.js';
+import { loadColleagues } from './ui/colleagues.js';
 
 async function displayUI(auto) {
     if (auto) {
@@ -40,7 +42,7 @@ async function displayUI(auto) {
     ]);
 }
 
-async function loadData() {
+export async function loadData() {
     await Promise.all([
         loadUnreadEmails(),
         loadMeetings(),

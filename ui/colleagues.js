@@ -1,4 +1,7 @@
-function selectPerson(personElement, personId) {
+import { getMyColleagues } from '../graph/colleagues.js';
+import { loadData } from '../index.js';
+
+export function selectPerson(personElement, personId) {
     const selectedUserId = getSelectedUserId();
     if (personElement && selectedUserId === personId) {
       personId = '';
@@ -55,7 +58,7 @@ function selectPerson(personElement, personId) {
     loadData();
   }
   
-  async function loadColleagues() {
+  export async function loadColleagues() {
     const { myColleagues, mapUrl } = await getMyColleagues();
     document.querySelector('#colleagues .loading').style = 'display: none';
   
@@ -88,7 +91,7 @@ function selectPerson(personElement, personId) {
     const mapLi = document.createElement('li');
     mapLi.setAttribute("id","allColleaguesMap");
     mapLi.style = selectedUserId ? "display:none" : "display:inline";
-    mapImage = document.createElement('img');
+    const mapImage = document.createElement('img');
     mapImage.setAttribute("src", mapUrl);
     mapImage.setAttribute("class", "map");
     mapLi.append(mapImage);
@@ -96,7 +99,7 @@ function selectPerson(personElement, personId) {
   
   }
   
-  function getSelectedUserId() {
+  export function getSelectedUserId() {
     if (location.hash.length < 2) {
       return undefined;
     }

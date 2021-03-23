@@ -1,6 +1,8 @@
+import { getMapUrl } from '../ui/profile.js';
+
 //#region Colleagues
 
-async function getMyColleagues() {
+export async function getMyColleagues() {
     // get my manager
     var manager;
     try {

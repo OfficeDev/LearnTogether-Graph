@@ -1,3 +1,5 @@
+import { getSelectedUserId } from '../ui/colleagues.js';
+
 export async function getMyUnreadEmails() {
   const selectedUserId = getSelectedUserId();
 
