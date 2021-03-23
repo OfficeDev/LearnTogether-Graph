@@ -28,22 +28,12 @@ export function selectPerson(personElement, personId) {
       personElement = document.querySelector(`#colleagues li[data-personid="${personId}"]`);
     }
   
-    const allColleaguesMapElement = document.querySelector('#allColleaguesMap');
-    if (allColleaguesMapElement) {
-      allColleaguesMapElement.style = personElement ? "display:none" : "display:inline";
-    }
     if (personElement) {
       personElement.className += 'selected';
       const personName = personElement.dataset['personname'];
       document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
       document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
-      document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;
-  
-      const profileElement = document.createElement('div');
-      profileElement.setAttribute('id', 'profile');
-      profileElement.className = 'ms-motion-slideDownIn';
-      profileElement.innerHTML = '<div></div>';
-      personElement.parentNode.insertBefore(profileElement, personElement.nextSibling);
+      document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;  
     }
   
     document.querySelector('#emails .loading').style = 'display: block';
@@ -60,7 +50,7 @@ export function selectPerson(personElement, personId) {
   }
   
   export async function loadColleagues() {
-    const { myColleagues, mapUrl } = await getMyColleagues();
+    const myColleagues = await getMyColleagues();
     document.querySelector('#colleagues .loading').style = 'display: none';
   
     const colleaguesList = document.querySelector('#colleagues ul');
@@ -72,8 +62,6 @@ export function selectPerson(personElement, personId) {
   
       const mgtPerson = document.createElement('mgt-person');
       mgtPerson.personDetails = person;
-      mgtPerson.line2Property = 'jobTitleAndDepartment';
-      mgtPerson.line3Property = 'localTime';
       mgtPerson.view = mgt.ViewType.threelines;
   
       colleagueLi.append(mgtPerson);

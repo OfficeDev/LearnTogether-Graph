@@ -1,5 +1,4 @@
 import { loadUnreadEmails } from './ui/email.js';
-import { loadProfile } from './ui/profile.js';
 import { loadColleagues } from './ui/colleagues.js';
 import { loadMeetings } from './ui/events.js';
 import { loadTrendingFiles } from './ui/files.js';
@@ -52,7 +51,6 @@ export async function loadData() {
         loadUnreadEmails(),
         loadMeetings(),
         loadTrendingFiles(),
-        loadProfile()
     ]);
 }
 
