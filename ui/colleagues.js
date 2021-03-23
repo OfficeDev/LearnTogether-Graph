@@ -76,16 +76,6 @@ export function selectPerson(personElement, personId) {
         selectPerson(undefined, selectedUserId);
       }, 1);
     }
-  
-    const mapLi = document.createElement('li');
-    mapLi.setAttribute("id","allColleaguesMap");
-    mapLi.style = selectedUserId ? "display:none" : "display:inline";
-    const mapImage = document.createElement('img');
-    mapImage.setAttribute("src", mapUrl);
-    mapImage.setAttribute("class", "map");
-    mapLi.append(mapImage);
-    colleaguesList.append(mapLi);
-  
   }
   
   
