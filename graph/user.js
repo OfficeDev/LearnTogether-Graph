@@ -9,7 +9,7 @@ export function getSelectedUserId() {
 }
 
 export function setSelectedUserId(id) {
-  selectedUserId = id;
+  location.hash = `#${id}`;
 }
 
 export async function getProfile() {

@@ -1,6 +1,6 @@
 import { getMyColleagues } from '../graph/colleagues.js';
 import { loadData } from '../index.js';
-import { getSelectedUserId } from '../graph/user.js';
+import { getSelectedUserId, setSelectedUserId } from '../graph/user.js';
 
 export function selectPerson(personElement, personId) {
     const selectedUserId = getSelectedUserId();
@@ -12,7 +12,7 @@ export function selectPerson(personElement, personId) {
       document.querySelector('#events h2').innerHTML = 'Your upcoming meetings next week';
     }
   
-    location.hash = `#${personId}`;
+    setSelectedUserId(personId);
   
     // unselect all users
     document
