@@ -1,6 +1,7 @@
 import { loadUnreadEmails } from './ui/email.js';
 import { loadProfile } from './ui/profile.js';
 import { loadColleagues } from './ui/colleagues.js';
+import { loadMeetings } from './ui/events.js';
 
 async function displayUI(auto) {
     if (auto) {

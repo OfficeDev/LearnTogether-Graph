@@ -1,5 +1,8 @@
+import { getSelectedUserId } from '../ui/colleagues.js';
+import { getUserPhoto } from '../graph/colleagues.js';
+
 //get calendar events for upcoming week
-async function getMyUpcomingMeetings() {
+export async function getMyUpcomingMeetings() {
     const selectedUserId = getSelectedUserId();
     const dateNow = new Date();
     const dateNextWeek = new Date();
