@@ -1,4 +1,6 @@
-async function loadTrendingFiles() {
+import { getTrendingFiles } from '../graph/files.js';
+
+export async function loadTrendingFiles() {
     const trendingFiles = await getTrendingFiles();
     document.querySelector('#trending .loading').style = 'display: none';
   

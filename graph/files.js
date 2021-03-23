@@ -1,5 +1,7 @@
-async function getTrendingFiles() {
-    result = [];
+import { getSelectedUserId } from '../ui/colleagues.js';
+
+export async function getTrendingFiles() {
+    const result = [];
     const selectedUserId = getSelectedUserId();
     const userQueryPart = selectedUserId ? `/users/${selectedUserId}` : '/me';
   
