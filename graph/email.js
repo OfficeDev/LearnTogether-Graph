@@ -1,4 +1,4 @@
-import { getSelectedUserId } from '../ui/colleagues.js';
+import { getSelectedUserId } from './user.js';
 import graphClient from './graphClient.js';
 
 export async function getMyUnreadEmails() {

@@ -1,4 +1,4 @@
-import { getProfile } from '../graph/profile.js';
+import { getProfile } from '../graph/user.js';
 
 export async function loadProfile() {
     const profile = await getProfile();

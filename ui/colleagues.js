@@ -1,5 +1,6 @@
 import { getMyColleagues } from '../graph/colleagues.js';
 import { loadData } from '../index.js';
+import { getSelectedUserId } from '../graph/user.js';
 
 export function selectPerson(personElement, personId) {
     const selectedUserId = getSelectedUserId();
@@ -99,10 +100,4 @@ export function selectPerson(personElement, personId) {
   
   }
   
-  export function getSelectedUserId() {
-    if (location.hash.length < 2) {
-      return undefined;
-    }
   
-    return location.hash.substr(1);
-  }
