@@ -1,5 +1,4 @@
-import { getSelectedUserId, getUserPhoto } from './user.js';
-import { getEmailForUser } from '../graph/email.js';
+import { getSelectedUserId, getUserPhoto, getEmailForUser } from './user.js';
 import graphClient from './graphClient.js';
 
 //get calendar events for upcoming week

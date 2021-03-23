@@ -25,6 +25,13 @@ export async function getUserPhoto(userId) {
     .get();
 }
 
+export async function getEmailForUser(userId) {
+  const user = await graphClient
+    .api(`/users/${userId}`)
+    .select('mail')
+    .get();
+  return user.mail;
+}
 
 export async function getProfile() {
   const selectedUserId = getSelectedUserId();

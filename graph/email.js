@@ -1,4 +1,4 @@
-import { getSelectedUserId } from './user.js';
+import { getSelectedUserId, getEmailForUser } from './user.js';
 import graphClient from './graphClient.js';
 
 export async function getMyUnreadEmails() {
@@ -20,10 +20,3 @@ export async function getMyUnreadEmails() {
     .get();
 }
 
-export async function getEmailForUser(userId) {
-  const user = await graphClient
-    .api(`/users/${userId}`)
-    .select('mail')
-    .get();
-  return user.mail;
-}
