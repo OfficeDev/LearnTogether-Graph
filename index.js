@@ -1,4 +1,3 @@
-import { loadUnreadEmails } from './ui/email.js';
 import { loadColleagues } from './ui/colleagues.js';
 import { loadMeetings } from './ui/events.js';
 
@@ -47,7 +46,6 @@ async function displayUI(auto) {
 
 export async function loadData() {
     await Promise.all([
-        loadUnreadEmails(),
         loadMeetings()
     ]);
 }

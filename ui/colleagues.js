@@ -4,12 +4,6 @@ import { getSelectedUserId, setSelectedUserId } from '../graph/user.js';
 
 export function selectPerson(personElement, personId) {
     const selectedUserId = getSelectedUserId();
-    if (personElement && selectedUserId === personId) {
-      personId = '';
-      personElement = undefined;
-      document.querySelector('#emails h2').innerHTML = 'Your unread emails';
-      document.querySelector('#events h2').innerHTML = 'Your upcoming meetings next week';
-    }
   
     setSelectedUserId(personId);
   
@@ -27,16 +21,6 @@ export function selectPerson(personElement, personId) {
       personElement = document.querySelector(`#colleagues li[data-personid="${personId}"]`);
     }
   
-    if (personElement) {
-      personElement.className += 'selected';
-      const personName = personElement.dataset['personname'];
-      document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
-      document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;  
-    }
-  
-    document.querySelector('#emails .loading').style = 'display: block';
-    document.querySelector('#emails .noContent').style = 'display: none';
-    document.querySelector('#emails ul').innerHTML = '';
     document.querySelector('#events .loading').style = 'display: block';
     document.querySelector('#events .noContent').style = 'display: none';
     document.querySelector('#events mgt-agenda').events = [];
