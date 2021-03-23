@@ -36,52 +36,6 @@
             <div class="noContent">You've got no colleagues 😳</div>
           </div>
 
-          <!-- Events -->
-          <div id="events">
-            <h2>Your upcoming meetings next week</h2>
-            <div class="loading">Loading upcoming events...</div>
-            <div class="noContent">It's quiet here 🔕</div>
-            <mgt-agenda group-by-day>
-              <template data-type="event">
-                <div class="details ms-depth-8">
-                  <div>
-                    <div class="subject ms-fontWeight-bold ms-color-sharedCyanBlue20">{{ event.subject }}</div>
-                    <div class="time">{{ timeRangeFromEvent(event) }}</div>
-                  </div>
-                  <div class="location" data-if="event.location.displayName">
-                    📍<span><b>{{ event.location.displayName }}</b></span>
-                  </div>
-                  <div class="attendees" data-if="event.attendees.length">
-                    <span class="attendee" data-for="attendee in event.attendees">
-                      <div data-if="attendee.personImage">
-                        <img alt="{{attendee.emailAddress.name}}" src="{{attendee.personImage}}" />
-                      </div>
-                        <div data-else>
-                         <mgt-person person-query="{{attendee.emailAddress.name}}"></mgt-person>
-                      </div>                     
-                    </span>
-                  </div>
-                  <div class="online-meeting" data-if="event.bodyPreview.includes('Join Microsoft Teams Meeting')">
-                    <img class="online-meeting-icon" src="https://img.icons8.com/color/48/000000/microsoft-teams.png" />
-                    <a class="online-meeting-link" href="{{ event.onlineMeetingUrl }}">Join Teams Meeting</a>
-                  </div>
-                </div>
-              </template>
-            </mgt-agenda>
-          </div>
-        </div>
-
-        <!-- Column 2-->
-        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
-          <!-- Email -->
-          <h2>Reserved for future use</h2>
-        </div>
-
-        <!-- Column 3 -->
-        <div class="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
-          <h2>Reserved for future use</h2>
-        </div>
-
       </div>
     </div>
   </div>
