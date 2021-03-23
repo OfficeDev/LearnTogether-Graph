@@ -168,16 +168,16 @@ async function getMyUpcomingMeetings() {
     meeting.attendees.forEach(
       attendee => photoRequests.push(getUserPhoto(attendee.emailAddress.address)));
   });
-
   const attendeePhotos = await Promise.allSettled(photoRequests);
+  var count=0;
   meetings.forEach(meeting => {
     meeting.attendees.forEach((attendee, i) => {
-      if (attendeePhotos[i].status === 'fulfilled') {
-        attendee.personImage = URL.createObjectURL(attendeePhotos[i].value);
+      if (attendeePhotos[count].status === 'fulfilled' && count<attendeePhotos.length) {
+        attendee.personImage = URL.createObjectURL(attendeePhotos[count].value);
+        count+=1;
       }
     });
   });
-
   return meetings;
 }
 //#endregion
