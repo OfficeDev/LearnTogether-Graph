@@ -39,13 +39,3 @@ export async function getMyColleagues() {
 
   return colleagues;
 }
-
-function toShortTimeString(date) {
-  const timeString = date.toLocaleTimeString();
-  const match = timeString.match(/(\d+\:\d+)\:\d+(.*)/);
-  if (!match) {
-    return timeString;
-  }
-
-  return `${match[1]}${match[2]}`;
-}
