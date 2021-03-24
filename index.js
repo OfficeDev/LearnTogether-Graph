@@ -45,4 +45,6 @@ async function displayUI(auto) {
 
 export async function loadData() { }
 
+// Expose for login button AND call immediately to attempt auto-login
+window.displayUI = displayUI;
 displayUI();
