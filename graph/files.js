@@ -8,7 +8,7 @@ export async function getTrendingFiles() {
   
     const trendingIds = await graphClient
       .api(`${userQueryPart}/insights/trending`)
-      .select('id')
+      .select('resourceReference')
       .filter("resourceReference/type eq 'microsoft.graph.driveItem'")
       .top(5)
       .get();
@@ -17,7 +17,7 @@ export async function getTrendingFiles() {
       let i = 1;
       const batchRequests = trendingIds.value.map(t => ({
         id: (i++).toString(),
-        request: new Request(`${userQueryPart}/insights/trending/${t.id}/resource`,
+        request: new Request(t.resourceReference.id,
           { method: "GET" })
       }));
   
