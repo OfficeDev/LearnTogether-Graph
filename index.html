@@ -64,9 +64,13 @@
                         </div>                     
                       </span>
                     </div>
-                    <div class="online-meeting" data-if="event.bodyPreview.includes('Join Microsoft Teams Meeting')">
+                    <div class="online-meeting" data-if="event.bodyPreview.includes('teams.microsoft.com')">
                       <img class="online-meeting-icon" src="https://img.icons8.com/color/48/000000/microsoft-teams.png" />
-                      <a class="online-meeting-link" href="{{ event.onlineMeetingUrl }}">Join Teams Meeting</a>
+                      <a class="online-meeting-link" target="_blank" rel="noopener" href="{{ event.onlineMeeting.joinUrl }}">Join Teams
+                        Meeting</a>
+                    </div>
+                    <div data-else>
+                      <a class="online-meeting-link" target="_blank" rel="noopener" href="{{ event.webLink }}">Go to the Meeting</a>
                     </div>
                   </div>
                 </template>
