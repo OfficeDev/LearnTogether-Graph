@@ -71,6 +71,7 @@ ul {
 .online-meeting-link {
   text-decoration: none;
   color: #3063b2;
+  font-size: 10px;
 }
 
 .attendees {
