@@ -11,33 +11,9 @@ export async function loadMeetings() {
     }
 }
 
-function dayFromDateTime (dateTimeString) {
-
-    let date = new Date(dateTimeString);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    let monthNames = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ];
-
-    let monthIndex = date.getMonth();
-    let day = date.getDate();
-    let year = date.getFullYear();
-
-    return monthNames[monthIndex] + ' ' + day + ' ' + year;
-}
-
-function timeRangeFromEvent (event) {
+// Function to format the meeting time - needs to be global for access from
+// the MGT template in index.html
+window.timeRangeFromEvent = function (event) {
     if (event.isAllDay) {
         return 'ALL DAY';
     }
