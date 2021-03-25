@@ -46,7 +46,7 @@ export async function getMyColleagues() {
     const timezonePromise = timezonePromises[i];
     if (timezonePromise.status === 'fulfilled') {
       const localTime = new Date(timezonePromise.value.convertedTime.localTime);
-      colleague.localTime = `${toShortTimeString(localTime)} (${timezonePromise.value.abbreviation}; ${colleague.localTime})`;
+      colleague.localTime = `${toShortTimeString(localTime)} (${timezonePromise.value.convertedTime.timeZoneDisplayAbbr}; ${colleague.localTime})`;
     }
   })
 
