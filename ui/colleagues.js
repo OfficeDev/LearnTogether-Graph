@@ -25,6 +25,10 @@ export function selectPerson(personElement, personId) {
     if (!personElement) {
       personElement = document.querySelector(`#colleagues li[data-personid="${personId}"]`);
     }
+
+    if (personElement) {
+      personElement.className += 'selected';
+    }
   
     document.querySelector('#events .loading').style = 'display: block';
     document.querySelector('#events .noContent').style = 'display: none';
