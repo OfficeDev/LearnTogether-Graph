@@ -23,7 +23,7 @@ export async function getMapUrl(places) {
                     method: 'GET',
                     headers: { "accept": "application/json" },
                 });
-
+                
             if (response.ok) {
                 const responseJson = await response.json();
                 const geoLocation = responseJson;
@@ -34,6 +34,7 @@ export async function getMapUrl(places) {
             } else {
                 console.log(`Error getting map location ${response.status}: ${response.statusText}`);
             }
+            
             window.localStorage.setItem(cacheKey, JSON.stringify(point));
         }
         // If we got a point and if there are less than 18 points, add it to the map
@@ -41,9 +42,10 @@ export async function getMapUrl(places) {
             points += `&pp=${point.x},${point.y};22`;
         }
     });
-    console.log(`http://dev.virtualearth.net/REST/v1/Imagery/Map/Aerial/0,0/0?mapSize=500,300${points}&key=${constants.bingMapsApiKey}`);
+    
+    console.log(`http://dev.virtualearth.net/REST/v1/Imagery/Map/Aerial/0,0/1?mapSize=500,300${points}&key=${constants.bingMapsApiKey}`);
 
-    return `http://dev.virtualearth.net/REST/v1/Imagery/Map/Aerial/0,0/0?mapSize=500,300${points}&key=${constants.bingMapsApiKey}`;
+    return `http://dev.virtualearth.net/REST/v1/Imagery/Map/Aerial/0,0/1?mapSize=500,300${points}&key=${constants.bingMapsApiKey}`;
 }
 
 export async function getTimezoneInfo(city, state, country) {
