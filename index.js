@@ -52,4 +52,6 @@ export async function loadData() {
     ]);
 }
 
-displayUI();
+// Expose for login button AND call immediately to attempt auto-login
+window.displayUI = displayUI;
+displayUI(true);
