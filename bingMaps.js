@@ -6,7 +6,6 @@ export async function getMapUrl(places) {
     places.forEach(async (place) => {
 
         const { city, state, country } = place;
-        console.log(`CITY=${city} STATE=${state} COUNTRY=${country}`);
         const cacheKey = `Map_Coord_${city},${state},${country}`;
 
         let cachedPoint = window.localStorage.getItem(cacheKey);
@@ -41,7 +40,6 @@ export async function getMapUrl(places) {
             points += `&pp=${point.x},${point.y};22`;
         }
     });
-    console.log(`http://dev.virtualearth.net/REST/v1/Imagery/Map/Aerial/0,0/0?mapSize=500,300${points}&key=${constants.bingMapsApiKey}`);
 
     return `http://dev.virtualearth.net/REST/v1/Imagery/Map/Aerial/0,0/0?mapSize=500,300${points}&key=${constants.bingMapsApiKey}`;
 }
