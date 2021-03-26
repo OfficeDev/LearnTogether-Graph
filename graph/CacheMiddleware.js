@@ -2,6 +2,7 @@ export function CacheMiddleware(expirationConfig) {
   this.nextMiddleware = undefined;
   this.expirationConfig = expirationConfig;
 
+  // converts headers to a hashtable for easier serializing
   const getHeaders = (headers) => {
     const h = {};
     for (var header of headers.entries()) {
@@ -10,6 +11,7 @@ export function CacheMiddleware(expirationConfig) {
     return h;
   };
 
+  // converts blob to a data URL for serializing
   const blobToDataUrl = async (blob) => {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
@@ -21,13 +23,14 @@ export function CacheMiddleware(expirationConfig) {
     });
   };
 
-  // from https://stackoverflow.com/a/16245768
+  // converts data URL to a blob so that it can be set on a response
   const dataUrlToBlob = (dataUrl) => {
     const blobData = dataUrl.split(',');
     const contentType = blobData[0].replace('data:', '').replace(';base64', '');
     return b64toBlob(blobData[1], contentType);
   };
-
+  
+  // from https://stackoverflow.com/a/16245768
   const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];
@@ -48,6 +51,10 @@ export function CacheMiddleware(expirationConfig) {
     return blob;
   }
 
+  // gets expiration date for the specified URL
+  // if expiration config has not been set, or the particular path has not been
+  // defined, returns undefined which means that the response will be cached
+  // for the duration of the session
   const getExpiresOn = (url) => {
     if (!this.expirationConfig) {
       return undefined;
@@ -69,11 +76,16 @@ export function CacheMiddleware(expirationConfig) {
     execute: async (context) => {
       console.debug(`Request: ${context.request}`);
 
+      // create a cache key. We should consider including headers in the key
+      // as well
       const requestKey = btoa(context.request);
       let response = window.sessionStorage.getItem(requestKey);
       let now = new Date();
+
       if (response) {
         const resp = JSON.parse(response);
+        // check if the cached response has an expiration date configured and
+        // if so, if it's still in the future (cache valid)
         const expiresOn = resp.expiresOn ? new Date(resp.expiresOn) : undefined;
         if (!expiresOn || expiresOn > now) {
           console.debug('-- from cache');
@@ -93,21 +105,23 @@ export function CacheMiddleware(expirationConfig) {
         }
       }
 
+      // no cache hit or cache expired, retrieve data from Graph
       console.debug('-- from Graph');
       await this.nextMiddleware.execute(context);
 
+      // don't cache non-GET or failed requests
       if (context.options.method !== 'GET' ||
         context.response.status !== 200) {
-        // don't cache non-GET or failed requests
         return;
       }
 
+      // clone response so that we can get the body stream
       const resp = context.response.clone();
 
       const expiresOn = getExpiresOn(resp.url);
       // reset date to catch expiration set to 0
       now = new Date();
-      // don't cache if the item already expired
+      // don't cache response if it's already expired
       if (expiresOn <= now) {
         return;
       }
