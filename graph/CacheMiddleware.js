@@ -52,7 +52,7 @@ export function CacheMiddleware() {
       console.debug(`Request: ${context.request}`);
 
       const requestKey = btoa(context.request);
-      let response = window.localStorage.getItem(requestKey);
+      let response = window.sessionStorage.getItem(requestKey);
       if (response) {
         console.debug('-- from cache');
         const resp = JSON.parse(response);
@@ -91,7 +91,7 @@ export function CacheMiddleware() {
         headers: headers,
         body: body
       };
-      window.localStorage.setItem(requestKey, JSON.stringify(response));
+      window.sessionStorage.setItem(requestKey, JSON.stringify(response));
     },
     setNext: (next) => {
       this.nextMiddleware = next;
