@@ -9,7 +9,7 @@ export function selectPerson(personElement, personId) {
       personElement = undefined;
       // document.querySelector('#emails h2').innerHTML = 'Your unread emails';
       document.querySelector('#trending h2').innerHTML = 'Trending files';
-      document.querySelector('#events h2').innerHTML = 'Your upcoming meetings next week';
+      // document.querySelector('#events h2').innerHTML = 'Your upcoming meetings next week';
     }
   
     setSelectedUserId(personId);
@@ -37,7 +37,7 @@ export function selectPerson(personElement, personId) {
       const personName = personElement.dataset['personname'];
       // document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
       document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
-      document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;
+      // document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;
   
       const profileElement = document.createElement('div');
       profileElement.setAttribute('id', 'profile');
@@ -52,9 +52,9 @@ export function selectPerson(personElement, personId) {
     document.querySelector('#trending .loading').style = 'display: block';
     document.querySelector('#trending .noContent').style = 'display: none';
     document.querySelector('#trending ul').innerHTML = '';
-    document.querySelector('#events .loading').style = 'display: block';
-    document.querySelector('#events .noContent').style = 'display: none';
-    document.querySelector('#events mgt-agenda').events = [];
+    // document.querySelector('#events .loading').style = 'display: block';
+    // document.querySelector('#events .noContent').style = 'display: none';
+    // document.querySelector('#events mgt-agenda').events = [];
   
     loadData();
   }

@@ -1,7 +1,21 @@
 import { getMyUpcomingMeetings } from '../graph/events.js';
+import { getSelectedUserId, getUser } from '../graph/user.js';
 
 export async function loadMeetings() {
-    const myMeetings = await getMyUpcomingMeetings();
+
+    document.querySelector('#events .loading').style = 'display: block';
+    document.querySelector('#events .noContent').style = 'display: none';
+    document.querySelector('#events mgt-agenda').events = [];
+
+    const selectedUserId = getSelectedUserId();
+    if (!selectedUserId) {
+        document.querySelector('#events h2').innerHTML = 'Your upcoming meetings next week';
+    } else {
+        let selectedUser = await getUser(selectedUserId);
+        document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${selectedUser.displayName}`;
+    }
+
+    const myMeetings = await getMyUpcomingMeetings(selectedUserId);
     document.querySelector('#events mgt-agenda').events = myMeetings;
     document.querySelector('#events .loading').style = 'display: none';
 

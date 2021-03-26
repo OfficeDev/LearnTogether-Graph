@@ -1,9 +1,9 @@
-import { getSelectedUserId, getUserPhoto, getUser } from './user.js';
+import { getUserPhoto, getUser } from './user.js';
 import graphClient from './graphClient.js';
 
 //get calendar events for upcoming week
-export async function getMyUpcomingMeetings() {
-    const selectedUserId = getSelectedUserId();
+export async function getMyUpcomingMeetings(selectedUserId) {
+
     const dateNow = new Date();
     const dateNextWeek = new Date();
     dateNextWeek.setDate(dateNextWeek.getDate() + 7);
@@ -17,9 +17,9 @@ export async function getMyUpcomingMeetings() {
     meetings = response.value;
     //if filter is applied, select meeting you have with the selected Colleague.
     if (selectedUserId) {
-      const selectedUserl = await getUser(selectedUserId);
+      const selectedUser = await getUser(selectedUserId);
       meetings = meetings.filter(meeting =>
-        meeting.attendees.some(attendee => attendee.emailAddress.address === selectedUserId.mail));
+        meeting.attendees.some(attendee => attendee.emailAddress.address === selectedUser.mail));
     }
     //photos of attendees
     var photoRequests = [];
