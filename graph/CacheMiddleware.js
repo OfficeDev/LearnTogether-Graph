@@ -1,5 +1,6 @@
-export function CacheMiddleware() {
+export function CacheMiddleware(expirationInMinutes) {
   this.nextMiddleware = undefined;
+  this.expirationInMinutes = expirationInMinutes;
 
   const getHeaders = (headers) => {
     const h = {};
@@ -53,18 +54,26 @@ export function CacheMiddleware() {
 
       const requestKey = btoa(context.request);
       let response = window.sessionStorage.getItem(requestKey);
+      const now = new Date();
       if (response) {
-        console.debug('-- from cache');
         const resp = JSON.parse(response);
-        let body;
-        if (resp.headers['content-type'].indexOf('application/json') > -1) {
-          body = JSON.stringify(resp.body);
+        const expirationDate = new Date(resp.expirationDate);
+        if (expirationDate > now) {
+          console.debug('-- from cache');
+
+          let body;
+          if (resp.headers['content-type'].indexOf('application/json') > -1) {
+            body = JSON.stringify(resp.body);
+          }
+          else {
+            body = dataUrlToBlob(resp.body);
+          }
+          context.response = new Response(body, resp);
+          return;
         }
         else {
-          body = dataUrlToBlob(resp.body);
+          console.log('-- cache expired');
         }
-        context.response = new Response(body, resp);
-        return;
       }
 
       console.debug('-- from Graph');
@@ -84,12 +93,15 @@ export function CacheMiddleware() {
       else {
         body = await blobToDataUrl(await resp.blob());
       }
+      const expirationDate = new Date();
+      expirationDate.setMinutes(expirationDate.getMinutes() + expirationInMinutes);
       response = {
         url: resp.url,
         status: resp.status,
         statusText: resp.statusText,
-        headers: headers,
-        body: body
+        headers,
+        body,
+        expirationDate
       };
       window.sessionStorage.setItem(requestKey, JSON.stringify(response));
     },

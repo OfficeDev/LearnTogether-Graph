@@ -17,7 +17,7 @@ function AuthProvider() {
 };
 
 const middleware = MicrosoftGraph.MiddlewareFactory.getDefaultMiddlewareChain(new AuthProvider());
-middleware.unshift(new CacheMiddleware());
+middleware.unshift(new CacheMiddleware(5));
 
 // Graph client singleton
 const graphClient = MicrosoftGraph.Client.initWithMiddleware({ middleware });
