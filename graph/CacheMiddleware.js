@@ -1,6 +1,6 @@
-export function CacheMiddleware(expirationInMinutes) {
+export function CacheMiddleware(expirationConfig) {
   this.nextMiddleware = undefined;
-  this.expirationInMinutes = expirationInMinutes;
+  this.expirationConfig = expirationConfig;
 
   const getHeaders = (headers) => {
     const h = {};
@@ -48,17 +48,34 @@ export function CacheMiddleware(expirationInMinutes) {
     return blob;
   }
 
+  const getExpiresOn = (url) => {
+    if (!this.expirationConfig) {
+      return undefined;
+    }
+
+    for (var i = 0; i < this.expirationConfig.length; i++) {
+      const exp = this.expirationConfig[i];
+      if (url.indexOf(exp.path) > -1) {
+        const expiresOn = new Date();
+        expiresOn.setMinutes(expiresOn.getMinutes() + exp.expirationInMinutes);
+        return expiresOn;
+      }
+    }
+
+    return undefined;
+  }
+
   return {
     execute: async (context) => {
       console.debug(`Request: ${context.request}`);
 
       const requestKey = btoa(context.request);
       let response = window.sessionStorage.getItem(requestKey);
-      const now = new Date();
+      let now = new Date();
       if (response) {
         const resp = JSON.parse(response);
-        const expirationDate = new Date(resp.expirationDate);
-        if (expirationDate > now) {
+        const expiresOn = resp.expiresOn ? new Date(resp.expiresOn) : undefined;
+        if (!expiresOn || expiresOn > now) {
           console.debug('-- from cache');
 
           let body;
@@ -79,12 +96,22 @@ export function CacheMiddleware(expirationInMinutes) {
       console.debug('-- from Graph');
       await this.nextMiddleware.execute(context);
 
-      if (context.options.method !== 'GET') {
-        // don't cache non-GET requests;
+      if (context.options.method !== 'GET' ||
+        context.response.status !== 200) {
+        // don't cache non-GET or failed requests
         return;
       }
 
       const resp = context.response.clone();
+
+      const expiresOn = getExpiresOn(resp.url);
+      // reset date to catch expiration set to 0
+      now = new Date();
+      // don't cache if the item already expired
+      if (expiresOn <= now) {
+        return;
+      }
+
       const headers = getHeaders(resp.headers);
       let body = '';
       if (headers['content-type'].indexOf('application/json') >= 0) {
@@ -93,15 +120,14 @@ export function CacheMiddleware(expirationInMinutes) {
       else {
         body = await blobToDataUrl(await resp.blob());
       }
-      const expirationDate = new Date();
-      expirationDate.setMinutes(expirationDate.getMinutes() + expirationInMinutes);
+
       response = {
         url: resp.url,
         status: resp.status,
         statusText: resp.statusText,
         headers,
         body,
-        expirationDate
+        expiresOn
       };
       window.sessionStorage.setItem(requestKey, JSON.stringify(response));
     },
