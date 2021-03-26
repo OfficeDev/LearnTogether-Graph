@@ -7,7 +7,7 @@ export function selectPerson(personElement, personId) {
     if (personElement && selectedUserId === personId) {
       personId = '';
       personElement = undefined;
-      document.querySelector('#emails h2').innerHTML = 'Your unread emails';
+      // document.querySelector('#emails h2').innerHTML = 'Your unread emails';
       document.querySelector('#trending h2').innerHTML = 'Trending files';
       document.querySelector('#events h2').innerHTML = 'Your upcoming meetings next week';
     }
@@ -35,7 +35,7 @@ export function selectPerson(personElement, personId) {
     if (personElement) {
       personElement.className += 'selected';
       const personName = personElement.dataset['personname'];
-      document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
+      // document.querySelector('#emails h2').innerHTML = `Your unread emails from ${personName}`;
       document.querySelector('#trending h2').innerHTML = `Files trending around ${personName}`;
       document.querySelector('#events h2').innerHTML = `Your upcoming meetings next week with ${personName}`;
   
@@ -46,9 +46,9 @@ export function selectPerson(personElement, personId) {
       personElement.parentNode.insertBefore(profileElement, personElement.nextSibling);
     }
   
-    document.querySelector('#emails .loading').style = 'display: block';
-    document.querySelector('#emails .noContent').style = 'display: none';
-    document.querySelector('#emails ul').innerHTML = '';
+    // document.querySelector('#emails .loading').style = 'display: block';
+    // document.querySelector('#emails .noContent').style = 'display: none';
+    // document.querySelector('#emails ul').innerHTML = '';
     document.querySelector('#trending .loading').style = 'display: block';
     document.querySelector('#trending .noContent').style = 'display: none';
     document.querySelector('#trending ul').innerHTML = '';

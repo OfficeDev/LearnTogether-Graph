@@ -11,10 +11,10 @@ export function setSelectedUserId(id) {
   location.hash = `#${id}`;
 }
 
-export async function getUser() {
+export async function getUser(userId) {
   return await graphClient
-    .api('/me')
-    .select('id,displayName,jobTitle')
+    .api(userId ? `/users/${userId}` : '/me')
+    .select('id,displayName,jobTitle,mail')
     .get();
 }
 
@@ -22,14 +22,6 @@ export async function getUserPhoto(userId) {
   return graphClient
     .api(`/users/${userId}/photo/$value`)
     .get();
-}
-
-export async function getEmailForUser(userId) {
-  const user = await graphClient
-    .api(`/users/${userId}`)
-    .select('mail')
-    .get();
-  return user.mail;
 }
 
 export async function getProfile() {

@@ -1,8 +1,7 @@
-import { getSelectedUserId, getEmailForUser } from './user.js';
+import { getUser } from './user.js';
 import graphClient from './graphClient.js';
 
-export async function getMyUnreadEmails() {
-  const selectedUserId = getSelectedUserId();
+export async function getMyUnreadEmails(userId) {
 
   let query = graphClient
     .api('/me/messages')
@@ -10,9 +9,9 @@ export async function getMyUnreadEmails() {
     .top(5);
   let filter = 'isRead eq false';
 
-  if (selectedUserId) {
-    const selectedUsersEmail = await getEmailForUser(selectedUserId);
-    filter += ` and sender/emailAddress/address eq '${selectedUsersEmail}'`;
+  if (userId) {
+    const selectedUser = await getUser(userId);
+    filter += ` and sender/emailAddress/address eq '${selectedUser.mail}'`;
   }
 
   return await query
