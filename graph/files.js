@@ -1,9 +1,7 @@
-import { getSelectedUserId } from './user.js';
 import graphClient from './graphClient.js';
 
-export async function getTrendingFiles() {
+export async function getTrendingFiles(selectedUserId) {
     const result = [];
-    const selectedUserId = getSelectedUserId();
     const userQueryPart = selectedUserId ? `/users/${selectedUserId}` : '/me';
   
     const trendingIds = await graphClient
